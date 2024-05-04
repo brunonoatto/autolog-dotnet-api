@@ -6,7 +6,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-builder.Services.AddScoped<AppDbContext>();
+builder.Services.AddDbContext<AppDbContext>();
 
 builder.Services.AddTransient<IAuthController, AuthController>();
 builder.Services.AddTransient<IAuthService, AuthService>();
