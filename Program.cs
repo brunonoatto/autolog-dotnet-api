@@ -1,18 +1,26 @@
 using AutologApi.API.Endpoints;
+using AutologApi.API.Infra.Repository;
+using AutologApi.API.Settings;
 using AutologApi.API.UseCases.Auth;
+using AutologApi.API.UseCases.Client;
+using AutologApi.API.UseCases.UserClient;
+using AutologApi.API.UseCases.UserGarage;
 
 var builder = WebApplication.CreateBuilder(args);
+
+// builder.Services.Configure<AppSettings>(builder.Configuration.GetSection("AppSettings"));
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-
 builder.Services
-    // .AddEntityFrameworkNpgsql()
     .AddDbContext<AppDbContext>();
 
+builder.Services.AddSingleton<TokenService>();
 builder.Services.AddScoped<AuthLoginUseCase>();
 builder.Services.AddScoped<CreateUserClientUseCase>();
+builder.Services.AddScoped<CreateUserGarageUseCase>();
+builder.Services.AddScoped<GetAllClientUseCase>();
 
 var app = builder.Build();
 

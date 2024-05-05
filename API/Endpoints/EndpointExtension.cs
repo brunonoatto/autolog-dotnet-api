@@ -1,3 +1,5 @@
+using AutologApi.API.Endpoints.Client;
+using AutologApi.API.Endpoints.User;
 
 namespace AutologApi.API.Endpoints
 {
@@ -5,7 +7,10 @@ namespace AutologApi.API.Endpoints
     {
         public static void MapEndpoints(this WebApplication app)
         {
-            app.MapAuthEndpoints();
+            app
+            .MapAuthEndpoints()
+            .MapClientEndpoints()
+            .MapUserEndpoints();
         }
     }
 }

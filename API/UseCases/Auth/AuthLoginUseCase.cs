@@ -1,10 +1,11 @@
 using BC = BCrypt.Net.BCrypt;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Mvc;
+using AutologApi.API.Infra.Repository;
 
 namespace AutologApi.API.UseCases.Auth
 {
-    public class AuthLoginUseCase(AppDbContext Repository) : IUseCase<AuthLoginUseCaseInput>
+    public class AuthLoginUseCase(AppDbContext Repository, TokenService TokenService) : IUseCase<AuthLoginUseCaseInput>
     {
         public async Task<IResult> Execute(AuthLoginUseCaseInput input)
         {
