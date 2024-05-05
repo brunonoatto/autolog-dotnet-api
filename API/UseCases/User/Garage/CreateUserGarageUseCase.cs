@@ -40,7 +40,6 @@ namespace AutologApi.API.UseCases
                 Address = input.Address,
                 AddressNumber = input.AddressNumber,
                 Complement = input.Complement,
-                User = newUser
             };
             Repository.Garages.Add(newGarage);
 

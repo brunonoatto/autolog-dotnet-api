@@ -25,8 +25,8 @@ namespace AutologApi.API.Domain.Models
         public required BudgetStatusEnum Status { get; set; }
         public required string Observation { get; set; }
 
-        public required User Client { get; set; }
-        public required Garage Garage { get; set; }
-        public required Car Car { get; set; }
+        public User? Client { get; set; }
+        public Garage? Garage { get; set; }
+        public Car? Car { get; set; }
     }
 }

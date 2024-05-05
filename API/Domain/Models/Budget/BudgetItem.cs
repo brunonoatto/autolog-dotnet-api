@@ -9,5 +9,7 @@ namespace AutologApi.API.Domain.Models
         public required int Qtd { get; set; }
         [DecimalPrecisionCustom]
         public required decimal Price { get; set; }
+
+        public Budget? Budget { get; set; }
     }
 }

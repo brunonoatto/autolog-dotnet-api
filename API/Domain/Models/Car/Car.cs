@@ -11,6 +11,6 @@ namespace AutologApi.API.Domain.Models
         public required string Model { get; set; }
         public required int Year { get; set; }
 
-        public required User Client { get; set; }
+        public User? Client { get; init; }
     }
 }
