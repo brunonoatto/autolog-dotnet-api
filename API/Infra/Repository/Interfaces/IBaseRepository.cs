@@ -1,6 +1,6 @@
-using Domain.Model;
+using AutologApi.API.Domain.Model;
 
-namespace Infra.Repository
+namespace AutologApi.API.Infra.Repository
 {
     public interface IBaseRepository<T> where T : EntityBase
     {

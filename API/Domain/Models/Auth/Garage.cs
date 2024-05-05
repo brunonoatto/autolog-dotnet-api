@@ -1,4 +1,4 @@
-namespace Domain.Model;
+namespace AutologApi.API.Domain.Model;
 
 public class Garage : User
 {

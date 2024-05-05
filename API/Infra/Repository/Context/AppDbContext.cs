@@ -1,4 +1,4 @@
-using Domain.Model;
+using AutologApi.API.Domain.Model;
 using Microsoft.EntityFrameworkCore;
 
 public class AppDbContext : DbContext
@@ -10,7 +10,7 @@ public class AppDbContext : DbContext
 
   protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
   {
-    // optionsBuilder.UseSqlServer(@"Server=(localdb)\mssqllocaldb;Database=Test");
+    optionsBuilder.UseNpgsql("Server=127.0.0.1;Port=5432;Pooling=true;Database=AUTOLOG_DB;User Id=postgres;Password=1234;");
     base.OnConfiguring(optionsBuilder);
   }
 }
