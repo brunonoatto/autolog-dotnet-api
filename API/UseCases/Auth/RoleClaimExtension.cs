@@ -1,5 +1,5 @@
 using System.Security.Claims;
-using AutologApi.API.Domain.Model;
+using AutologApi.API.Domain.Models;
 
 public static class RoleClaimExtention
 {

@@ -1,7 +1,7 @@
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
-using AutologApi.API.Domain.Model;
+using AutologApi.API.Domain.Models;
 using AutologApi.API.Settings;
 using Microsoft.IdentityModel.Tokens;
 

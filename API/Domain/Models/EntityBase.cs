@@ -1,9 +1,14 @@
-namespace AutologApi.API.Domain.Model;
+using System.ComponentModel.DataAnnotations;
 
-public class EntityBase()
+namespace AutologApi.API.Domain.Models
 {
-  public Guid Id { get; set; }
-  public DateTime CreatedDate { get; set; } = DateTime.Now;
-  public DateTime? UpdatedDate { get; set; }
-  public bool IsEnabled { get; set; } = true;
+  public class EntityBase()
+  {
+
+    [Key]
+    public Guid Id { get; set; }
+    public DateTime CreatedDate { get; set; } = DateTime.Now;
+    public DateTime? UpdatedDate { get; set; }
+    public bool IsEnabled { get; set; } = true;
+  }
 }

@@ -1,4 +1,4 @@
-using AutologApi.API.Domain.Model;
+using AutologApi.API.Domain.Models;
 
 namespace AutologApi.API.UseCases.UserClient
 {

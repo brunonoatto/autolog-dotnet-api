@@ -1,7 +1,7 @@
 using BC = BCrypt.Net.BCrypt;
 using Microsoft.EntityFrameworkCore;
-using AutologApi.API.Domain.Model;
 using AutologApi.API.Infra.Repository;
+using AutologApi.API.Domain.Models;
 
 namespace AutologApi.API.UseCases.Client
 {
@@ -11,7 +11,7 @@ namespace AutologApi.API.UseCases.Client
         {
             var clients = await Repository
                 .Users
-                .Where(u => u.Type == UserType.Client)
+                .Where(u => u.Type == UserTypeEnum.Client)
                 .ToListAsync();
 
             return Results.Ok(clients);

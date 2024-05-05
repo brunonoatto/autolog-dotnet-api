@@ -12,7 +12,7 @@ namespace AutologApi.API.Settings
 
     public class AppSettings
     {
-        public required ConnectionStrings ConnectionStrings { get; set; }
-        public required Hash Hash { get; set; }
+        public required ConnectionStrings ConnectionStrings { get; init; }
+        public required Hash Hash { get; init; }
     }
 }

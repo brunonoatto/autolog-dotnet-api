@@ -1,8 +1,8 @@
 using BC = BCrypt.Net.BCrypt;
 using Microsoft.EntityFrameworkCore;
-using AutologApi.API.Domain.Model;
 using AutologApi.API.Infra.Repository;
 using AutologApi.API.Settings;
+using AutologApi.API.Domain.Models;
 
 namespace AutologApi.API.UseCases.UserClient
 {
@@ -27,7 +27,7 @@ namespace AutologApi.API.UseCases.UserClient
                 Password = passwordHashed,
                 Cpf_Cnpj = input.Cpf_Cnpj,
                 Phone = input.Phone,
-                Type = UserType.Client
+                Type = UserTypeEnum.Client
             };
 
             Repository.Users.Add(newUser);
