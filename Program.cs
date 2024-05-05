@@ -23,6 +23,7 @@ builder.Services.AddScoped<CreateUserGarageUseCase>();
 builder.Services.AddScoped<GetClientUseCase>();
 //Car
 builder.Services.AddScoped<GetCarByLicenseUseCase>();
+builder.Services.AddScoped<ListClientCarsUseCase>();
 builder.Services.AddScoped<PostCarUseCase>();
 
 var app = builder.Build();
