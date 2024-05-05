@@ -1,4 +1,3 @@
-
 using AutologApi.API.UseCases.Client;
 using Microsoft.AspNetCore.Mvc;
 
@@ -10,14 +9,14 @@ namespace AutologApi.API.Endpoints.Client
         {
             var authGroup = app.MapGroup("client");
 
-            authGroup.MapGet("/", GetAll);
+            authGroup.MapGet("/", GetClient);
 
             return app;
         }
 
-        private static Task<IResult> GetAll([FromServices] GetAllClientUseCase getAllClientUseCase)
+        private static Task<IResult> GetClient([AsParameters] GetClientUseCaseInput input, [FromServices] GetClientUseCase getClientUseCase)
         {
-            return getAllClientUseCase.Execute();
+            return getClientUseCase.Execute(input);
         }
     }
 }

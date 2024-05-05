@@ -20,7 +20,7 @@ builder.Services.AddSingleton<TokenService>();
 builder.Services.AddScoped<AuthLoginUseCase>();
 builder.Services.AddScoped<CreateUserClientUseCase>();
 builder.Services.AddScoped<CreateUserGarageUseCase>();
-builder.Services.AddScoped<GetAllClientUseCase>();
+builder.Services.AddScoped<GetClientUseCase>();
 
 var app = builder.Build();
 
