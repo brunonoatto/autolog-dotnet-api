@@ -4,7 +4,7 @@ using AutologApi.API.Infra.Repository;
 using AutologApi.API.Settings;
 using AutologApi.API.Domain.Models;
 
-namespace AutologApi.API.UseCases.UserClient
+namespace AutologApi.API.UseCases
 {
     // public class CreateUserClientUseCase(AppDbContext Repository, AppSettings AppSettings) : IUseCase<CreateUserClientUseCaseInput>
     public class CreateUserClientUseCase(AppDbContext Repository) : IUseCase<CreateUserClientUseCaseInput>

@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Mvc;
 using AutologApi.API.Infra.Repository;
 
-namespace AutologApi.API.UseCases.Auth
+namespace AutologApi.API.UseCases
 {
     public class AuthLoginUseCase(AppDbContext Repository, TokenService TokenService) : IUseCase<AuthLoginUseCaseInput>
     {

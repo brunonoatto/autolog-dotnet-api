@@ -1,10 +1,7 @@
 using AutologApi.API.Endpoints;
 using AutologApi.API.Infra.Repository;
 using AutologApi.API.Settings;
-using AutologApi.API.UseCases.Auth;
-using AutologApi.API.UseCases.Client;
-using AutologApi.API.UseCases.UserClient;
-using AutologApi.API.UseCases.UserGarage;
+using AutologApi.API.UseCases;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -17,10 +14,15 @@ builder.Services
     .AddDbContext<AppDbContext>();
 
 builder.Services.AddSingleton<TokenService>();
+// Auth
 builder.Services.AddScoped<AuthLoginUseCase>();
+//Users
 builder.Services.AddScoped<CreateUserClientUseCase>();
 builder.Services.AddScoped<CreateUserGarageUseCase>();
+// Client
 builder.Services.AddScoped<GetClientUseCase>();
+//Car
+builder.Services.AddScoped<GetCarByLicenseUseCase>();
 
 var app = builder.Build();
 

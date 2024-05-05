@@ -1,4 +1,4 @@
-using AutologApi.API.UseCases.Client;
+using AutologApi.API.UseCases;
 using Microsoft.AspNetCore.Mvc;
 
 namespace AutologApi.API.Endpoints.Client

@@ -5,7 +5,7 @@ using AutologApi.API.Domain.Models;
 using AutologApi.API.Settings;
 using Microsoft.IdentityModel.Tokens;
 
-namespace AutologApi.API.UseCases.Auth
+namespace AutologApi.API.UseCases
 {
     // public class TokenService(AppSettings AppSettings)
     public class TokenService()

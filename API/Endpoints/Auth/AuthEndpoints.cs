@@ -1,4 +1,4 @@
-using AutologApi.API.UseCases.Auth;
+using AutologApi.API.UseCases;
 using Microsoft.AspNetCore.Mvc;
 
 namespace AutologApi.API.Endpoints

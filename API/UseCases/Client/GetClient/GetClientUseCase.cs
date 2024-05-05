@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using AutologApi.API.Infra.Repository;
 using AutologApi.API.Domain.Models;
 
-namespace AutologApi.API.UseCases.Client
+namespace AutologApi.API.UseCases
 {
     public class GetClientUseCase(AppDbContext Repository) : IUseCase<GetClientUseCaseInput>
     {

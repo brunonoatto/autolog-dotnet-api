@@ -1,6 +1,5 @@
 
-using AutologApi.API.UseCases.UserClient;
-using AutologApi.API.UseCases.UserGarage;
+using AutologApi.API.UseCases;
 using Microsoft.AspNetCore.Mvc;
 
 namespace AutologApi.API.Endpoints.User
