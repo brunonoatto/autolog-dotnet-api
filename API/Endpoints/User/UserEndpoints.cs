@@ -8,10 +8,10 @@ namespace AutologApi.API.Endpoints.User
     {
         public static WebApplication MapUserEndpoints(this WebApplication app)
         {
-            var authGroup = app.MapGroup("user");
+            var userGroup = app.MapGroup("user");
 
-            authGroup.MapGet("/create-garage", CreateGarage);
-            authGroup.MapPost("/create-client", CreateUserClient);
+            userGroup.MapPost("/create-garage", CreateGarage);
+            userGroup.MapPost("/create-client", CreateUserClient);
 
             return app;
         }

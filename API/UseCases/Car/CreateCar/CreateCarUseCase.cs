@@ -4,9 +4,9 @@ using Microsoft.EntityFrameworkCore;
 
 namespace AutologApi.API.UseCases
 {
-    public class PostCarUseCase(AppDbContext Repository) : IUseCase<PostCarUseCaseInput>
+    public class CreateCarUseCase(AppDbContext Repository) : IUseCase<CreateCarUseCaseInput>
     {
-        public async Task<IResult> Execute(PostCarUseCaseInput input)
+        public async Task<IResult> Execute(CreateCarUseCaseInput input)
         {
             var isLicenseExist = await Repository
                 .Cars
@@ -14,7 +14,7 @@ namespace AutologApi.API.UseCases
 
             if (isLicenseExist)
             {
-                return Results.Conflict("Placa já utilizada em outro veículo");
+                return Results.Conflict("Placa já utilizada em outro veículo.");
             }
 
             var newCar = new Car

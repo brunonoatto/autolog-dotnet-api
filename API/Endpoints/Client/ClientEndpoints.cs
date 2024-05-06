@@ -7,9 +7,9 @@ namespace AutologApi.API.Endpoints.Client
     {
         public static WebApplication MapClientEndpoints(this WebApplication app)
         {
-            var authGroup = app.MapGroup("client");
+            var clientGroup = app.MapGroup("client");
 
-            authGroup.MapGet("/", GetClient);
+            clientGroup.MapGet("/", GetClient);
 
             return app;
         }

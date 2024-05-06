@@ -2,5 +2,6 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace AutologApi.API.UseCases
 {
-    public record ListClientCarsUseCaseInput([FromQuery] Guid ClientId, [FromQuery] bool Transfereds);
+    // TODO: depois tentar pegar o ClientId enviado no TokenJWT e deixa-lo como opcional
+    public record ListClientCarsUseCaseInput([FromRoute] Guid ClientId, [FromQuery] bool Transfereds = false);
 }

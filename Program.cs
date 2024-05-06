@@ -14,17 +14,19 @@ builder.Services
     .AddDbContext<AppDbContext>();
 
 builder.Services.AddSingleton<TokenService>();
+
 // Auth
 builder.Services.AddScoped<AuthLoginUseCase>();
 //Users
 builder.Services.AddScoped<CreateUserClientUseCase>();
+builder.Services.AddScoped<TransferCarUseCase>();
 builder.Services.AddScoped<CreateUserGarageUseCase>();
 // Client
 builder.Services.AddScoped<GetClientUseCase>();
 //Car
+builder.Services.AddScoped<CreateCarUseCase>();
 builder.Services.AddScoped<GetCarByLicenseUseCase>();
 builder.Services.AddScoped<ListClientCarsUseCase>();
-builder.Services.AddScoped<PostCarUseCase>();
 
 var app = builder.Build();
 

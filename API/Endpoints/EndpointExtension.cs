@@ -1,3 +1,4 @@
+using AutologApi.API.Endpoints.Car;
 using AutologApi.API.Endpoints.Client;
 using AutologApi.API.Endpoints.User;
 
@@ -9,6 +10,7 @@ namespace AutologApi.API.Endpoints
         {
             app
             .MapAuthEndpoints()
+            .MapCarEndpoints()
             .MapClientEndpoints()
             .MapUserEndpoints();
         }
