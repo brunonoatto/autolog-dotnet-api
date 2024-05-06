@@ -2,7 +2,8 @@ using AutologApi.API.Domain.Models;
 
 namespace AutologApi.API.Infra.Repository
 {
-    public interface IBaseRepository<T> where T : EntityBase
+    public interface IBaseRepository<T>
+        where T : EntityBase
     {
         IEnumerable<T> GetAll();
         T? GetById(Guid id);

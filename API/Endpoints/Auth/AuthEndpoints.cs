@@ -14,11 +14,12 @@ namespace AutologApi.API.Endpoints
             return app;
         }
 
-        private static Task<IResult> Login([FromBody] AuthLoginUseCaseInput input, [FromServices] AuthLoginUseCase loginUseCase)
+        private static Task<IResult> Login(
+            [FromBody] AuthLoginUseCaseInput input,
+            [FromServices] AuthLoginUseCase loginUseCase
+        )
         {
             return loginUseCase.Execute(input);
         }
     }
-
-
 }

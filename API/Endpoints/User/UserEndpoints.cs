@@ -1,4 +1,3 @@
-
 using AutologApi.API.UseCases;
 using Microsoft.AspNetCore.Mvc;
 
@@ -16,11 +15,18 @@ namespace AutologApi.API.Endpoints.User
             return app;
         }
 
-        private static Task<IResult> CreateUserClient([FromBody] CreateUserClientUseCaseInput input, [FromServices] CreateUserClientUseCase createUserClientUseCase)
+        private static Task<IResult> CreateUserClient(
+            [FromBody] CreateUserClientUseCaseInput input,
+            [FromServices] CreateUserClientUseCase createUserClientUseCase
+        )
         {
             return createUserClientUseCase.Execute(input);
         }
-        private static Task<IResult> CreateGarage([FromBody] CreateUserGarageUseCaseInput input, [FromServices] CreateUserGarageUseCase createUserGarageUseCase)
+
+        private static Task<IResult> CreateGarage(
+            [FromBody] CreateUserGarageUseCaseInput input,
+            [FromServices] CreateUserGarageUseCase createUserGarageUseCase
+        )
         {
             return createUserGarageUseCase.Execute(input);
         }

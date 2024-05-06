@@ -1,17 +1,20 @@
-using BC = BCrypt.Net.BCrypt;
-using Microsoft.EntityFrameworkCore;
+using AutologApi.API.Domain.Models;
 using AutologApi.API.Infra.Repository;
 using AutologApi.API.Settings;
-using AutologApi.API.Domain.Models;
+using Microsoft.EntityFrameworkCore;
+using BC = BCrypt.Net.BCrypt;
 
 namespace AutologApi.API.UseCases
 {
     // public class CreateUserClientUseCase(AppDbContext Repository, AppSettings AppSettings) : IUseCase<CreateUserClientUseCaseInput>
-    public class CreateUserClientUseCase(AppDbContext Repository) : IUseCase<CreateUserClientUseCaseInput>
+    public class CreateUserClientUseCase(AppDbContext Repository)
+        : IUseCase<CreateUserClientUseCaseInput>
     {
         public async Task<IResult> Execute(CreateUserClientUseCaseInput input)
         {
-            var emailsAlreadyExist = await Repository.Users.FirstOrDefaultAsync(u => u.Email == input.Email || u.Cpf_Cnpj == input.Cpf_Cnpj);
+            var emailsAlreadyExist = await Repository.Users.FirstOrDefaultAsync(u =>
+                u.Email == input.Email || u.Cpf_Cnpj == input.Cpf_Cnpj
+            );
 
             if (emailsAlreadyExist is not null)
             {

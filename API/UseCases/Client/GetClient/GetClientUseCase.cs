@@ -1,7 +1,7 @@
-using BC = BCrypt.Net.BCrypt;
-using Microsoft.EntityFrameworkCore;
-using AutologApi.API.Infra.Repository;
 using AutologApi.API.Domain.Models;
+using AutologApi.API.Infra.Repository;
+using Microsoft.EntityFrameworkCore;
+using BC = BCrypt.Net.BCrypt;
 
 namespace AutologApi.API.UseCases
 {
@@ -9,9 +9,9 @@ namespace AutologApi.API.UseCases
     {
         public async Task<IResult> Execute(GetClientUseCaseInput input)
         {
-            var client = await Repository
-                .Users
-                .FirstOrDefaultAsync(u => u.Cpf_Cnpj == input.Cpf_Cnppj || u.Email == input.Email);
+            var client = await Repository.Users.FirstOrDefaultAsync(u =>
+                u.Cpf_Cnpj == input.Cpf_Cnppj || u.Email == input.Email
+            );
 
             if (client is null)
             {
@@ -21,10 +21,7 @@ namespace AutologApi.API.UseCases
             List<Car>? cars = null;
             if (input.WithCars)
             {
-                cars = await Repository
-                    .Cars
-                    .Where(c => c.ClientId == client.Id)
-                    .ToListAsync();
+                cars = await Repository.Cars.Where(c => c.ClientId == client.Id).ToListAsync();
             }
 
             var output = new GetClientUseCaseOutput(client, cars);

@@ -7,6 +7,7 @@ namespace AutologApi.API.Domain.Models
         public required string Os { get; set; }
         public required string Description { get; set; }
         public required int Qtd { get; set; }
+
         [DecimalPrecisionCustom]
         public required decimal Price { get; set; }
 

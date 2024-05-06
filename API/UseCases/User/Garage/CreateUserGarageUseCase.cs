@@ -1,24 +1,25 @@
-using BC = BCrypt.Net.BCrypt;
-using Microsoft.EntityFrameworkCore;
 using AutologApi.API.Domain.Models;
 using AutologApi.API.Infra.Repository;
 using AutologApi.API.Settings;
+using Microsoft.EntityFrameworkCore;
+using BC = BCrypt.Net.BCrypt;
 
 namespace AutologApi.API.UseCases
 {
     // public class CreateUserGarageUseCase(AppDbContext Repository, AppSettings AppSettings) : IUseCase<CreateUserGarageUseCaseInput>
-    public class CreateUserGarageUseCase(AppDbContext Repository) : IUseCase<CreateUserGarageUseCaseInput>
+    public class CreateUserGarageUseCase(AppDbContext Repository)
+        : IUseCase<CreateUserGarageUseCaseInput>
     {
-
         public async Task<IResult> Execute(CreateUserGarageUseCaseInput input)
         {
-            var emailsAlreadyExist = await Repository.Users.FirstOrDefaultAsync(u => u.Email == input.Email || u.Cpf_Cnpj == input.Cpf_Cnpj);
+            var emailsAlreadyExist = await Repository.Users.FirstOrDefaultAsync(u =>
+                u.Email == input.Email || u.Cpf_Cnpj == input.Cpf_Cnpj
+            );
 
             if (emailsAlreadyExist is not null)
             {
                 return Results.Conflict("Dados informados já cadastrados no sistema.");
             }
-
 
             // string passwordHashed = BC.HashPassword(input.Password, AppSettings.Hash.Salt);
             string passwordHashed = BC.HashPassword(input.Password, 8);

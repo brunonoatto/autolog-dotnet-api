@@ -8,11 +8,7 @@ namespace AutologApi.API.Endpoints
     {
         public static void MapEndpoints(this WebApplication app)
         {
-            app
-            .MapAuthEndpoints()
-            .MapCarEndpoints()
-            .MapClientEndpoints()
-            .MapUserEndpoints();
+            app.MapAuthEndpoints().MapCarEndpoints().MapClientEndpoints().MapUserEndpoints();
         }
     }
 }

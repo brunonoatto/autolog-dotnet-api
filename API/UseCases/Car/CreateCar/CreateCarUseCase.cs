@@ -8,9 +8,7 @@ namespace AutologApi.API.UseCases
     {
         public async Task<IResult> Execute(CreateCarUseCaseInput input)
         {
-            var isLicenseExist = await Repository
-                .Cars
-                .AnyAsync(c => c.License == input.License);
+            var isLicenseExist = await Repository.Cars.AnyAsync(c => c.License == input.License);
 
             if (isLicenseExist)
             {

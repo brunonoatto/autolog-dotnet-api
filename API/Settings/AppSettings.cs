@@ -4,6 +4,7 @@ namespace AutologApi.API.Settings
     {
         public readonly string DefaultConnection = defaultConnection;
     }
+
     public class Hash(int salt, string jwtKey)
     {
         public readonly int Salt = salt;

@@ -14,7 +14,10 @@ namespace AutologApi.API.Endpoints.Client
             return app;
         }
 
-        private static Task<IResult> GetClient([AsParameters] GetClientUseCaseInput input, [FromServices] GetClientUseCase getClientUseCase)
+        private static Task<IResult> GetClient(
+            [AsParameters] GetClientUseCaseInput input,
+            [FromServices] GetClientUseCase getClientUseCase
+        )
         {
             return getClientUseCase.Execute(input);
         }

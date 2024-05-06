@@ -15,7 +15,10 @@ namespace AutologApi.API.UseCases
             var handler = new JwtSecurityTokenHandler();
             // var key = Encoding.ASCII.GetBytes(AppSettings.Hash.JwtKey);
             var key = Encoding.ASCII.GetBytes("5+IV)E2glD3xCH2rNTElZ_at9(TbG1N(E=pH)29*");
-            var credentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature);
+            var credentials = new SigningCredentials(
+                new SymmetricSecurityKey(key),
+                SecurityAlgorithms.HmacSha256Signature
+            );
 
             var tokenDescriptor = new SecurityTokenDescriptor
             {
