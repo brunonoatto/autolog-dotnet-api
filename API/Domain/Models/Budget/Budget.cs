@@ -18,7 +18,7 @@ namespace AutologApi.API.Domain.Models
     public class Budget : EntityBase
     {
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public required int Os { get; set; }
+        public Guid Os { get; set; }
         public required Guid GarageId { get; set; }
         public required Guid ClientId { get; set; }
         public required Guid CarId { get; set; }

@@ -10,23 +10,28 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-builder.Services
-    .AddDbContext<AppDbContext>();
+builder.Services.AddDbContext<AppDbContext>();
 
 builder.Services.AddSingleton<TokenService>();
 
 // Auth
 builder.Services.AddScoped<AuthLoginUseCase>();
+
 //Users
 builder.Services.AddScoped<CreateUserClientUseCase>();
 builder.Services.AddScoped<TransferCarUseCase>();
 builder.Services.AddScoped<CreateUserGarageUseCase>();
+
 // Client
 builder.Services.AddScoped<GetClientUseCase>();
+
 //Car
 builder.Services.AddScoped<CreateCarUseCase>();
 builder.Services.AddScoped<GetCarByLicenseUseCase>();
 builder.Services.AddScoped<ListClientCarsUseCase>();
+
+//Budget
+builder.Services.AddScoped<CreateBudgetUseCase>();
 
 var app = builder.Build();
 
@@ -44,4 +49,3 @@ app.UseHttpsRedirection();
 app.MapEndpoints();
 
 app.Run();
-

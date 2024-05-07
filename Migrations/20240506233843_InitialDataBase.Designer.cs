@@ -12,7 +12,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace AutologApi.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20240505222834_InitialDataBase")]
+    [Migration("20240506233843_InitialDataBase")]
     partial class InitialDataBase
     {
         /// <inheritdoc />
@@ -30,11 +30,9 @@ namespace AutologApi.Migrations
                     b.Property<Guid>("Id")
                         .HasColumnType("uuid");
 
-                    b.Property<int>("Os")
+                    b.Property<Guid>("Os")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("integer");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Os"));
+                        .HasColumnType("uuid");
 
                     b.Property<Guid>("CarId")
                         .HasColumnType("uuid");
@@ -78,6 +76,12 @@ namespace AutologApi.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
 
+                    b.Property<Guid?>("BudgetId")
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid?>("BudgetOs")
+                        .HasColumnType("uuid");
+
                     b.Property<DateTime>("CreatedDate")
                         .HasColumnType("timestamp with time zone");
 
@@ -103,6 +107,8 @@ namespace AutologApi.Migrations
                         .HasColumnType("timestamp with time zone");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("BudgetId", "BudgetOs");
 
                     b.ToTable("BudgetItems");
                 });
@@ -253,6 +259,15 @@ namespace AutologApi.Migrations
                     b.Navigation("Client");
 
                     b.Navigation("Garage");
+                });
+
+            modelBuilder.Entity("AutologApi.API.Domain.Models.BudgetItem", b =>
+                {
+                    b.HasOne("AutologApi.API.Domain.Models.Budget", "Budget")
+                        .WithMany()
+                        .HasForeignKey("BudgetId", "BudgetOs");
+
+                    b.Navigation("Budget");
                 });
 
             modelBuilder.Entity("AutologApi.API.Domain.Models.Car", b =>
