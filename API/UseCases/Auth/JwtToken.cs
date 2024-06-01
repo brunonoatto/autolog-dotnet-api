@@ -1,8 +1,6 @@
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
-using AutologApi.API.Domain.Models;
-using AutologApi.API.Settings;
 using Microsoft.IdentityModel.Tokens;
 
 namespace AutologApi.API.UseCases
@@ -10,11 +8,13 @@ namespace AutologApi.API.UseCases
     // public class TokenService(AppSettings AppSettings)
     public class TokenService()
     {
-        public string Generate(User user)
+        public static string SecretByte = "5+IV)E2glD3xCH2rNTElZ_at9(TbG1N(E=pH)29*";
+
+        public string Generate(TokenData tokenData)
         {
             var handler = new JwtSecurityTokenHandler();
             // var key = Encoding.ASCII.GetBytes(AppSettings.Hash.JwtKey);
-            var key = Encoding.ASCII.GetBytes("5+IV)E2glD3xCH2rNTElZ_at9(TbG1N(E=pH)29*");
+            var key = Encoding.ASCII.GetBytes(SecretByte);
             var credentials = new SigningCredentials(
                 new SymmetricSecurityKey(key),
                 SecurityAlgorithms.HmacSha256Signature
@@ -22,7 +22,7 @@ namespace AutologApi.API.UseCases
 
             var tokenDescriptor = new SecurityTokenDescriptor
             {
-                Subject = new ClaimsIdentity(user.GetClaims()),
+                Subject = new ClaimsIdentity(tokenData.GetClaims()),
                 Expires = DateTime.UtcNow.AddDays(1),
                 SigningCredentials = credentials,
             };
