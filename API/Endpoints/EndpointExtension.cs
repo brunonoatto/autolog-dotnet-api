@@ -1,6 +1,7 @@
 using AutologApi.API.Endpoints.Budget;
 using AutologApi.API.Endpoints.Car;
 using AutologApi.API.Endpoints.Client;
+using AutologApi.API.Endpoints.Dashboard;
 using AutologApi.API.Endpoints.User;
 
 namespace AutologApi.API.Endpoints
@@ -12,8 +13,10 @@ namespace AutologApi.API.Endpoints
             app.MapAuthEndpoints()
                 .MapCarEndpoints()
                 .MapClientEndpoints()
+                .MapDashboardEndpoints()
                 .MapUserEndpoints()
-                .MapBudgetEndpoints();
+                .MapBudgetEndpoints()
+                .MapBudgetItemEndpoints();
         }
     }
 }

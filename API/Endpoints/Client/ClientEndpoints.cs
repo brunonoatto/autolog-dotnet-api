@@ -10,16 +10,25 @@ namespace AutologApi.API.Endpoints.Client
             var clientGroup = app.MapGroup("client");
 
             clientGroup.MapGet("/", GetClient);
+            clientGroup.MapGet("/{clientId}/cars", GetClientCars);
 
             return app;
         }
 
         private static Task<IResult> GetClient(
             [AsParameters] GetClientUseCaseInput input,
-            [FromServices] GetClientUseCase getClientUseCase
+            [FromServices] GetClientUseCase useCase
         )
         {
-            return getClientUseCase.Execute(input);
+            return useCase.Execute(input);
+        }
+
+        private static Task<IResult> GetClientCars(
+            [AsParameters] GetClientCarsUseCaseInput input,
+            [FromServices] GetClientCarsUseCase useCase
+        )
+        {
+            return useCase.Execute(input);
         }
     }
 }
