@@ -1,5 +1,5 @@
+using AutologApi.API.Domain.Models;
 using AutologApi.API.Infra.Repository;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using BC = BCrypt.Net.BCrypt;
 
@@ -24,9 +24,28 @@ namespace AutologApi.API.UseCases
                 return Results.Unauthorized();
             }
 
-            var accessToken = TokenService.Generate(user);
+            if (user.Type == UserTypeEnum.Garage)
+            {
+                var garage = await Repository.Garages.FirstOrDefaultAsync(g => g.UserId == user.Id);
 
-            return Results.Ok(new UserCreateClientUseCaseOutput(accessToken));
+                if (garage is null)
+                {
+                    return Results.Unauthorized();
+                }
+
+                TokenData garageTokenData =
+                    new(garage.Id.ToString(), user.Name, UserTypeEnum.Garage);
+
+                var garageAccessToken = TokenService.Generate(garageTokenData);
+
+                return Results.Ok(new UserCreateClientUseCaseOutput(garageAccessToken));
+            }
+
+            TokenData clientTokenData = new(user.Id.ToString(), user.Name, UserTypeEnum.Client);
+
+            var clientAccessToken = TokenService.Generate(clientTokenData);
+
+            return Results.Ok(new UserCreateClientUseCaseOutput(clientAccessToken));
         }
     }
 }
