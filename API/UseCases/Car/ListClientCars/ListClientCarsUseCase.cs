@@ -13,7 +13,7 @@ namespace AutologApi.API.UseCases
             {
                 // TODO: Aqui no futuro, pegar os carros que foram transferidos da tabela de transferência
                 carsIdFilter = await Repository
-                    .Budgets.Where(b => b.ClientId == input.ClientId)
+                    .Budgets.Where(b => b.UserId == input.ClientId)
                     .Select(b => b.CarId)
                     .ToListAsync();
             }
