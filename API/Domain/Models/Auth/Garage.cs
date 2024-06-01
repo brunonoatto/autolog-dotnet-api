@@ -6,6 +6,7 @@ namespace AutologApi.API.Domain.Models
         public required string Address { get; set; }
         public required int AddressNumber { get; set; }
         public string? Complement { get; set; }
-        public User? User { get; set; }
+
+        public virtual User? User { get; set; }
     }
 }

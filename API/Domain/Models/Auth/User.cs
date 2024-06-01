@@ -14,5 +14,7 @@ namespace AutologApi.API.Domain.Models
         public required string Cpf_Cnpj { get; set; }
         public required string Phone { get; set; }
         public required UserTypeEnum Type { get; set; }
+
+        public virtual ICollection<Car> Cars { get; init; } = [];
     }
 }
