@@ -25,7 +25,7 @@ namespace AutologApi.API.UseCases
             };
 
             await Repository.Cars.AddAsync(newCar);
-            Repository.SaveChanges();
+            await Repository.SaveChangesAsync();
 
             return Results.Ok(newCar);
         }
