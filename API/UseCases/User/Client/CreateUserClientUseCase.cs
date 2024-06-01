@@ -1,6 +1,5 @@
 using AutologApi.API.Domain.Models;
 using AutologApi.API.Infra.Repository;
-using AutologApi.API.Settings;
 using Microsoft.EntityFrameworkCore;
 using BC = BCrypt.Net.BCrypt;
 
@@ -12,22 +11,27 @@ namespace AutologApi.API.UseCases
     {
         public async Task<IResult> Execute(CreateUserClientUseCaseInput input)
         {
-            var emailsAlreadyExist = await Repository.Users.FirstOrDefaultAsync(u =>
+            var user = await Repository.Users.FirstOrDefaultAsync(u =>
                 u.Email == input.Email || u.Cpf_Cnpj == input.Cpf_Cnpj
             );
 
-            if (emailsAlreadyExist is not null)
+            if (user is not null)
             {
+                if (user.Email == "*")
+                {
+                    await CreateExistUser(user, input);
+
+                    return Results.Created();
+                }
+
                 return Results.Conflict("Dados informados já cadastrados no sistema.");
             }
 
-            // string passwordHashed = BC.HashPassword(input.Password, AppSettings.Hash.Salt);
-            string passwordHashed = BC.HashPassword(input.Password, 8);
             var newUser = new User
             {
                 Name = input.Name,
                 Email = input.Email,
-                Password = passwordHashed,
+                Password = GetHashPassword(input.Password),
                 Cpf_Cnpj = input.Cpf_Cnpj,
                 Phone = input.Phone,
                 Type = UserTypeEnum.Client
@@ -36,7 +40,26 @@ namespace AutologApi.API.UseCases
             Repository.Users.Add(newUser);
             await Repository.SaveChangesAsync();
 
-            return Results.Ok(newUser);
+            return Results.Created();
+        }
+
+        private async Task CreateExistUser(User user, CreateUserClientUseCaseInput input)
+        {
+            user.Name = input.Name;
+            user.Phone = input.Phone;
+            user.Email = input.Email;
+
+            user.Password = GetHashPassword(input.Password);
+
+            Repository.Users.Update(user);
+            await Repository.SaveChangesAsync();
+        }
+
+        // Colocar essa função em algum helper
+        private string GetHashPassword(string password)
+        {
+            // return BC.HashPassword(input.Password, AppSettings.Hash.Salt);
+            return BC.HashPassword(password, 8);
         }
     }
 }

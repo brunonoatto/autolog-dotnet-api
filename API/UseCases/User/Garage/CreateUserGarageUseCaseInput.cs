@@ -4,7 +4,7 @@ namespace AutologApi.API.UseCases
         string Name,
         string Email,
         string Password,
-        string Cpf_Cnpj,
+        string Cnpj,
         string Phone,
         string Address,
         int AddressNumber,

@@ -13,7 +13,7 @@ namespace AutologApi.API.UseCases
         public async Task<IResult> Execute(CreateUserGarageUseCaseInput input)
         {
             var emailsAlreadyExist = await Repository.Users.FirstOrDefaultAsync(u =>
-                u.Email == input.Email || u.Cpf_Cnpj == input.Cpf_Cnpj
+                u.Email == input.Email || u.Cpf_Cnpj == input.Cnpj
             );
 
             if (emailsAlreadyExist is not null)
@@ -28,9 +28,9 @@ namespace AutologApi.API.UseCases
                 Name = input.Name,
                 Email = input.Email,
                 Password = passwordHashed,
-                Cpf_Cnpj = input.Cpf_Cnpj,
+                Cpf_Cnpj = input.Cnpj,
                 Phone = input.Phone,
-                Type = UserTypeEnum.Client
+                Type = UserTypeEnum.Garage
             };
 
             Repository.Users.Add(newUser);
