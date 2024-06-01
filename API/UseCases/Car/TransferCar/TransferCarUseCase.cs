@@ -31,7 +31,7 @@ namespace AutologApi.API.UseCases
 
             car.ClientId = input.ClientIdToTrasnfer;
 
-            Repository.SaveChanges();
+            await Repository.SaveChangesAsync();
 
             return Results.Ok(car);
         }
