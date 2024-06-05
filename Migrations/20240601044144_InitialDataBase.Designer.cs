@@ -12,7 +12,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace AutologApi.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20240506233843_InitialDataBase")]
+    [Migration("20240601044144_InitialDataBase")]
     partial class InitialDataBase
     {
         /// <inheritdoc />
@@ -28,16 +28,10 @@ namespace AutologApi.Migrations
             modelBuilder.Entity("AutologApi.API.Domain.Models.Budget", b =>
                 {
                     b.Property<Guid>("Id")
-                        .HasColumnType("uuid");
-
-                    b.Property<Guid>("Os")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
 
                     b.Property<Guid>("CarId")
-                        .HasColumnType("uuid");
-
-                    b.Property<Guid>("ClientId")
                         .HasColumnType("uuid");
 
                     b.Property<DateTime>("CreatedDate")
@@ -50,8 +44,13 @@ namespace AutologApi.Migrations
                         .HasColumnType("boolean");
 
                     b.Property<string>("Observation")
-                        .IsRequired()
                         .HasColumnType("text");
+
+                    b.Property<int>("Os")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Os"));
 
                     b.Property<int>("Status")
                         .HasColumnType("integer");
@@ -59,13 +58,16 @@ namespace AutologApi.Migrations
                     b.Property<DateTime?>("UpdatedDate")
                         .HasColumnType("timestamp with time zone");
 
-                    b.HasKey("Id", "Os");
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uuid");
+
+                    b.HasKey("Id");
 
                     b.HasIndex("CarId");
 
-                    b.HasIndex("ClientId");
-
                     b.HasIndex("GarageId");
+
+                    b.HasIndex("UserId");
 
                     b.ToTable("Budgets");
                 });
@@ -76,10 +78,7 @@ namespace AutologApi.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
 
-                    b.Property<Guid?>("BudgetId")
-                        .HasColumnType("uuid");
-
-                    b.Property<Guid?>("BudgetOs")
+                    b.Property<Guid>("BudgetId")
                         .HasColumnType("uuid");
 
                     b.Property<DateTime>("CreatedDate")
@@ -91,10 +90,6 @@ namespace AutologApi.Migrations
 
                     b.Property<bool>("IsEnabled")
                         .HasColumnType("boolean");
-
-                    b.Property<string>("Os")
-                        .IsRequired()
-                        .HasColumnType("text");
 
                     b.Property<decimal>("Price")
                         .HasPrecision(10, 2)
@@ -108,7 +103,7 @@ namespace AutologApi.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("BudgetId", "BudgetOs");
+                    b.HasIndex("BudgetId");
 
                     b.ToTable("BudgetItems");
                 });
@@ -242,30 +237,32 @@ namespace AutologApi.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("AutologApi.API.Domain.Models.User", "Client")
-                        .WithMany()
-                        .HasForeignKey("ClientId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("AutologApi.API.Domain.Models.Garage", "Garage")
                         .WithMany()
                         .HasForeignKey("GarageId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("AutologApi.API.Domain.Models.User", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.Navigation("Car");
 
-                    b.Navigation("Client");
-
                     b.Navigation("Garage");
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("AutologApi.API.Domain.Models.BudgetItem", b =>
                 {
                     b.HasOne("AutologApi.API.Domain.Models.Budget", "Budget")
-                        .WithMany()
-                        .HasForeignKey("BudgetId", "BudgetOs");
+                        .WithMany("Items")
+                        .HasForeignKey("BudgetId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Budget");
                 });
@@ -273,7 +270,7 @@ namespace AutologApi.Migrations
             modelBuilder.Entity("AutologApi.API.Domain.Models.Car", b =>
                 {
                     b.HasOne("AutologApi.API.Domain.Models.User", "Client")
-                        .WithMany()
+                        .WithMany("Cars")
                         .HasForeignKey("ClientId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -290,6 +287,16 @@ namespace AutologApi.Migrations
                         .IsRequired();
 
                     b.Navigation("User");
+                });
+
+            modelBuilder.Entity("AutologApi.API.Domain.Models.Budget", b =>
+                {
+                    b.Navigation("Items");
+                });
+
+            modelBuilder.Entity("AutologApi.API.Domain.Models.User", b =>
+                {
+                    b.Navigation("Cars");
                 });
 #pragma warning restore 612, 618
         }

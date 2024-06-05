@@ -1,5 +1,6 @@
 ﻿using System;
 using Microsoft.EntityFrameworkCore.Migrations;
+using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 #nullable disable
 
@@ -85,19 +86,20 @@ namespace AutologApi.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
-                    Os = table.Column<Guid>(type: "uuid", nullable: false),
+                    Os = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     GarageId = table.Column<Guid>(type: "uuid", nullable: false),
-                    ClientId = table.Column<Guid>(type: "uuid", nullable: false),
+                    UserId = table.Column<Guid>(type: "uuid", nullable: false),
                     CarId = table.Column<Guid>(type: "uuid", nullable: false),
                     Status = table.Column<int>(type: "integer", nullable: false),
-                    Observation = table.Column<string>(type: "text", nullable: false),
+                    Observation = table.Column<string>(type: "text", nullable: true),
                     CreatedDate = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
                     UpdatedDate = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
                     IsEnabled = table.Column<bool>(type: "boolean", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Budgets", x => new { x.Id, x.Os });
+                    table.PrimaryKey("PK_Budgets", x => x.Id);
                     table.ForeignKey(
                         name: "FK_Budgets_Cars_CarId",
                         column: x => x.CarId,
@@ -111,8 +113,8 @@ namespace AutologApi.Migrations
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_Budgets_Users_ClientId",
-                        column: x => x.ClientId,
+                        name: "FK_Budgets_Users_UserId",
+                        column: x => x.UserId,
                         principalTable: "Users",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
@@ -123,12 +125,10 @@ namespace AutologApi.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
-                    Os = table.Column<string>(type: "text", nullable: false),
+                    BudgetId = table.Column<Guid>(type: "uuid", nullable: false),
                     Description = table.Column<string>(type: "text", nullable: false),
                     Qtd = table.Column<int>(type: "integer", nullable: false),
                     Price = table.Column<decimal>(type: "numeric(10,2)", precision: 10, scale: 2, nullable: false),
-                    BudgetId = table.Column<Guid>(type: "uuid", nullable: true),
-                    BudgetOs = table.Column<Guid>(type: "uuid", nullable: true),
                     CreatedDate = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
                     UpdatedDate = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
                     IsEnabled = table.Column<bool>(type: "boolean", nullable: false)
@@ -137,16 +137,17 @@ namespace AutologApi.Migrations
                 {
                     table.PrimaryKey("PK_BudgetItems", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_BudgetItems_Budgets_BudgetId_BudgetOs",
-                        columns: x => new { x.BudgetId, x.BudgetOs },
+                        name: "FK_BudgetItems_Budgets_BudgetId",
+                        column: x => x.BudgetId,
                         principalTable: "Budgets",
-                        principalColumns: new[] { "Id", "Os" });
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_BudgetItems_BudgetId_BudgetOs",
+                name: "IX_BudgetItems_BudgetId",
                 table: "BudgetItems",
-                columns: new[] { "BudgetId", "BudgetOs" });
+                column: "BudgetId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Budgets_CarId",
@@ -154,14 +155,14 @@ namespace AutologApi.Migrations
                 column: "CarId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Budgets_ClientId",
-                table: "Budgets",
-                column: "ClientId");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_Budgets_GarageId",
                 table: "Budgets",
                 column: "GarageId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Budgets_UserId",
+                table: "Budgets",
+                column: "UserId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Cars_ClientId",
