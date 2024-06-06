@@ -20,6 +20,7 @@ namespace AutologApi.API.Endpoints.Budget
             BudgetGroup.MapPatch("/completed/{budgetId}", CompletedBudget);
             BudgetGroup.MapPatch("/finish/{budgetId}", FinishBudget);
             BudgetGroup.MapGet("/link-whats/{budgetId}", GetWhatsAppLinkBudget);
+            BudgetGroup.MapPatch("/observation/{budgetId}", ObservationUpdate);
 
             return app;
         }
@@ -105,6 +106,14 @@ namespace AutologApi.API.Endpoints.Budget
         private static Task<IResult> GetWhatsAppLinkBudget(
             [AsParameters] GetWhatsAppLinkBudgetUseCaseInput input,
             [FromServices] GetWhatsAppLinkBudgetUseCase useCase
+        )
+        {
+            return useCase.Execute(input);
+        }
+
+        private static Task<IResult> ObservationUpdate(
+            [AsParameters] ObservationUpdateUseCaseInput input,
+            [FromServices] ObservationUpdateUseCase useCase
         )
         {
             return useCase.Execute(input);
