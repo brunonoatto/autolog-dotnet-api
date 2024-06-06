@@ -14,11 +14,10 @@ namespace AutologApi.API.UseCases
                 return Results.NotFound("Veículo não encontrado.");
             }
 
-            // TODO: pegar o clientId do usuário logado pelo token enviado
-            // if (car.ClientId != TokenData.ClientId)
-            // {
-            //     return Results.BadRequest("Veículo não pertence ao Cliente logado.");
-            // }
+            if (car.ClientId != input.User.GetClientId())
+            {
+                return Results.BadRequest("Veículo não pertence ao Cliente logado.");
+            }
 
             var clientToTransfer = await Repository.Users.FirstOrDefaultAsync(u =>
                 u.Id == input.ClientIdToTrasnfer
