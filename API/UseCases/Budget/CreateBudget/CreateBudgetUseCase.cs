@@ -23,7 +23,7 @@ namespace AutologApi.API.UseCases
                 {
                     Email = "*",
                     Password = "*",
-                    Cpf_Cnpj = input.NewClient.Cpf_Cnpj,
+                    CpfCnpj = input.NewClient.CpfCnpj,
                     Name = input.NewClient.Name,
                     Phone = input.NewClient.Phone,
                     Type = UserTypeEnum.Client

@@ -25,7 +25,7 @@
 //         }
 //         public async void CreateClient(User user)
 //         {
-//             var emailsAlreadyExist = await repository.Users.FirstOrDefaultAsync(u => u.Email == user.Email || u.Cpf_Cnpj == user.Cpf_Cnpj);
+//             var emailsAlreadyExist = await repository.Users.FirstOrDefaultAsync(u => u.Email == user.Email || u.CpfCnpj == user.CpfCnpj);
 
 //             if (emailsAlreadyExist is not null)
 //             {
@@ -51,7 +51,7 @@
 //         {
 //             CreateClient(garage);
 
-//             var garageAlreadyExist = await repository.Garages.FirstOrDefaultAsync(u => u.Email == garage.Email || u.Cpf_Cnpj == garage.Cpf_Cnpj);
+//             var garageAlreadyExist = await repository.Garages.FirstOrDefaultAsync(u => u.Email == garage.Email || u.CpfCnpj == garage.CpfCnpj);
 
 //             if (garageAlreadyExist is not null)
 //             {

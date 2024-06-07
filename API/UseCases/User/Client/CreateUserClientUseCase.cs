@@ -12,7 +12,7 @@ namespace AutologApi.API.UseCases
         public async Task<IResult> Execute(CreateUserClientUseCaseInput input)
         {
             var user = await Repository.Users.FirstOrDefaultAsync(u =>
-                u.Email == input.Email || u.Cpf_Cnpj == input.Cpf_Cnpj
+                u.Email == input.Email || u.CpfCnpj == input.CpfCnpj
             );
 
             if (user is not null)
@@ -32,7 +32,7 @@ namespace AutologApi.API.UseCases
                 Name = input.Name,
                 Email = input.Email,
                 Password = GetHashPassword(input.Password),
-                Cpf_Cnpj = input.Cpf_Cnpj,
+                CpfCnpj = input.CpfCnpj,
                 Phone = input.Phone,
                 Type = UserTypeEnum.Client
             };
