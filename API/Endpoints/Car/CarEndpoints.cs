@@ -11,7 +11,7 @@ namespace AutologApi.API.Endpoints.Car
 
             carGroup.MapPost("/", CreateCar);
             carGroup.MapGet("/{license}", GetCarByLicense);
-            carGroup.MapGet("/client/{clientId}", ListClientCars);
+            carGroup.MapGet("/client", ListClientCars);
             carGroup.MapPatch("/{carId}/transfer/{clientIdToTrasnfer}", TransferCar);
 
             return app;

@@ -8,18 +8,22 @@ namespace AutologApi.API.UseCases
     {
         public async Task<IResult> Execute(ListClientCarsUseCaseInput input)
         {
+            var clientId = input.ClientId.HasValue
+                ? input.ClientId.Value
+                : input.User.GetClientId();
+
             List<Guid> carsIdFilter = [];
             if (input.Transfereds)
             {
                 // TODO: Aqui no futuro, pegar os carros que foram transferidos da tabela de transferência
                 carsIdFilter = await Repository
-                    .Budgets.Where(b => b.UserId == input.ClientId)
+                    .Budgets.Where(b => b.UserId == clientId)
                     .Select(b => b.CarId)
                     .ToListAsync();
             }
 
             var cars = await Repository
-                .Cars.Where(c => c.ClientId == input.ClientId || carsIdFilter.Contains(c.Id))
+                .Cars.Where(c => c.ClientId == clientId || carsIdFilter.Contains(c.Id))
                 .ToListAsync();
 
             return Results.Ok(cars);
