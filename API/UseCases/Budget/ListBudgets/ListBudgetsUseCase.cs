@@ -10,11 +10,11 @@ namespace AutologApi.API.UseCases
         {
             var userType = input.User.GetUserType();
 
-            var budgetQuery = Repository.Budgets.Include(b => b.Car).ThenInclude(c => c!.Client);
+            var budgetQuery = Repository.Budgets.Include(b => b.Car);
 
             if (userType == UserTypeEnum.Client)
             {
-                budgetQuery.Where(b => b.Car!.Client!.Id == input.User.GetClientId());
+                budgetQuery.Where(b => b.UserId == input.User.GetClientId());
             }
             else if (userType == UserTypeEnum.Garage)
             {
@@ -26,7 +26,7 @@ namespace AutologApi.API.UseCases
             }
 
             var budgets = await budgetQuery
-                .Where(b => b.Car != null && b.Car.License == input.license)
+                .Where(b => b.Car!.License == input.license)
                 .Select(b => new ListBudgetsUseCaseOutput(
                     b.Os,
                     b.GarageId,
