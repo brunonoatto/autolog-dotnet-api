@@ -9,6 +9,7 @@ namespace AutologApi.API.UseCases
         public async Task<IResult> Execute(CreateBudgetUseCaseInput input)
         {
             //TODO: regra negócio: Já existe um orçamento em andamento para esse veículo na sua oficina.
+            var garageId = input.User.GetGarageId();
 
             var clientId = input.ClientId;
 
@@ -67,7 +68,7 @@ namespace AutologApi.API.UseCases
 
             var newBudget = new Budget
             {
-                GarageId = input.GarageId,
+                GarageId = garageId,
                 UserId = (Guid)clientId,
                 CarId = (Guid)carId,
                 Status = BudgetStatusEnum.MakingBudget,
