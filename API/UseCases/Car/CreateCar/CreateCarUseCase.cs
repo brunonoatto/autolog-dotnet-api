@@ -17,7 +17,7 @@ namespace AutologApi.API.UseCases
 
             var newCar = new Car
             {
-                ClientId = input.ClientId,
+                ClientId = input.User.GetClientId(),
                 License = input.License,
                 Brand = input.Brand,
                 Model = input.Model,
