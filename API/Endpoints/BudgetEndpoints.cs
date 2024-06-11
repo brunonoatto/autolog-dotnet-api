@@ -34,7 +34,7 @@ namespace AutologApi.API.Endpoints.Budget
         }
 
         private static Task<IResult> CreateBudget(
-            [FromBody] CreateBudgetUseCaseInput input,
+            [AsParameters] CreateBudgetUseCaseInput input,
             [FromServices] CreateBudgetUseCase useCase
         )
         {

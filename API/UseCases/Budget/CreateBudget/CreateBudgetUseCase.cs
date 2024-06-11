@@ -10,12 +10,13 @@ namespace AutologApi.API.UseCases
         {
             //TODO: regra negócio: Já existe um orçamento em andamento para esse veículo na sua oficina.
             var garageId = input.User.GetGarageId();
+            var bodyData = input.Body;
 
-            var clientId = input.ClientId;
+            var clientId = bodyData.ClientId;
 
             if (clientId is null)
             {
-                if (input.NewClient is null)
+                if (bodyData.NewClient is null)
                 {
                     return Results.BadRequest("Dados do Cliente não foram enviados.");
                 }
@@ -24,9 +25,9 @@ namespace AutologApi.API.UseCases
                 {
                     Email = "*",
                     Password = "*",
-                    CpfCnpj = input.NewClient.CpfCnpj,
-                    Name = input.NewClient.Name,
-                    Phone = input.NewClient.Phone,
+                    CpfCnpj = bodyData.NewClient.CpfCnpj,
+                    Name = bodyData.NewClient.Name,
+                    Phone = bodyData.NewClient.Phone,
                     Type = UserTypeEnum.Client
                 };
 
@@ -35,17 +36,17 @@ namespace AutologApi.API.UseCases
                 clientId = newUser.Id;
             }
 
-            var carId = input.CarId;
+            var carId = bodyData.CarId;
 
             if (carId is null)
             {
-                if (input.Car is null)
+                if (bodyData.Car is null)
                 {
                     return Results.BadRequest("Dados do Veículo não foram enviados.");
                 }
 
                 var isLicenseExist = await Repository.Cars.AnyAsync(c =>
-                    c.License == input.Car.License
+                    c.License == bodyData.Car.License
                 );
                 if (isLicenseExist)
                 {
@@ -54,11 +55,11 @@ namespace AutologApi.API.UseCases
 
                 var newCar = new Car
                 {
-                    License = input.Car.License,
+                    License = bodyData.Car.License,
                     ClientId = (Guid)clientId,
-                    Model = input.Car.Model,
-                    Brand = input.Car.Brand,
-                    Year = input.Car.Year,
+                    Model = bodyData.Car.Model,
+                    Brand = bodyData.Car.Brand,
+                    Year = bodyData.Car.Year,
                 };
 
                 Repository.Cars.Add(newCar);
@@ -72,7 +73,7 @@ namespace AutologApi.API.UseCases
                 UserId = (Guid)clientId,
                 CarId = (Guid)carId,
                 Status = BudgetStatusEnum.MakingBudget,
-                Observation = input.Observation,
+                Observation = bodyData.Observation,
             };
 
             await Repository.Budgets.AddAsync(newBudget);
