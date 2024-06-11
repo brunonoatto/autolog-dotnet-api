@@ -14,11 +14,32 @@ namespace AutologApi.API.UseCases
             var budget = await Repository
                 .Budgets.Include(b => b.Items.Where(i => i.IsEnabled))
                 .Include(b => b.Car)
+                .Include(b => b.Garage)
+                .ThenInclude(g => g!.User)
                 .FirstOrDefaultAsync(b =>
                     b.Os == input.Os && (!garageId.HasValue || b.GarageId == garageId)
                 );
 
-            return Results.Ok(budget);
+            if (budget is null)
+            {
+                return Results.NotFound("Orçamento não encontrado");
+            }
+
+            var budgetOutput = new GetBudgetUseCaseOutput(
+                budget.Id,
+                budget.Os,
+                budget.GarageId,
+                budget.Car!.License,
+                budget.Status,
+                budget.UserId,
+                budget.Observation,
+                budget.CreatedDate.ToShortDateString(),
+                budget.Garage!.User!.Name,
+                budget.Car,
+                budget.Items
+            );
+
+            return Results.Ok(budgetOutput);
         }
     }
 }
