@@ -1,6 +1,7 @@
 using System.Text;
 using System.Text.Json.Serialization;
 using AutologApi.API.Endpoints;
+using AutologApi.API.Exceptions;
 using AutologApi.API.Infra.Repository;
 using AutologApi.API.UseCases;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -30,10 +31,11 @@ builder
         config.SaveToken = true;
         config.TokenValidationParameters = new TokenValidationParameters
         {
-            ValidateIssuerSigningKey = true,
             IssuerSigningKey = new SymmetricSecurityKey(secretKeyBytes),
+            ValidateLifetime = true,
+            ValidateIssuerSigningKey = true,
             ValidateIssuer = false,
-            ValidateAudience = false
+            ValidateAudience = false,
         };
     });
 
@@ -91,6 +93,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
+app.AddGlobalErrorHandler();
 app.UseAuthentication();
 app.UseCors();
 
