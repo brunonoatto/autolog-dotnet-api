@@ -12,7 +12,7 @@ namespace AutologApi.API.UseCases
             var claim = claimsIdentity?.FindFirst(types);
 
             if (claim == null)
-                throw new Exception("Field não enconstrado");
+                throw new UnauthorizedAccessException();
 
             return claim.Value;
         }
