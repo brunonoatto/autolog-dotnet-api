@@ -1,6 +1,8 @@
+using System.Diagnostics;
 using AutologApi.API.Domain.Models;
 using AutologApi.API.Infra.Repository;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 
 namespace AutologApi.API.UseCases
 {
@@ -12,21 +14,15 @@ namespace AutologApi.API.UseCases
 
             var budgetQuery = Repository.Budgets.Include(b => b.Car);
 
-            if (userType == UserTypeEnum.Client)
-            {
-                budgetQuery.Where(b => b.UserId == input.User.GetClientId());
-            }
-            else if (userType == UserTypeEnum.Garage)
-            {
-                budgetQuery.Where(b => b.GarageId == input.User.GetGarageId());
-            }
-            else
-            {
-                return Results.BadRequest("Usuário não encontrado.");
-            }
+            var budgets =
+                userType == UserTypeEnum.Client
+                    ? budgetQuery.Where(b => b.UserId == input.User.GetClientId())
+                    : budgetQuery.Where(b => b.GarageId == input.User.GetGarageId());
 
-            var budgets = await budgetQuery
-                .Where(b => b.Car!.License == input.license)
+            if (!input.License.IsNullOrEmpty())
+                budgets = budgets.Where(b => b.Car!.License == input.License);
+
+            var result = await budgets
                 .Select(b => new ListBudgetsUseCaseOutput(
                     b.Os,
                     b.GarageId,
@@ -44,9 +40,9 @@ namespace AutologApi.API.UseCases
                         b.Car.Year
                     )
                 ))
-                .ToListAsync();
+                .ToListPaginationAsync(input.Pagination);
 
-            return Results.Ok(budgets);
+            return Results.Ok(result);
         }
     }
 }
