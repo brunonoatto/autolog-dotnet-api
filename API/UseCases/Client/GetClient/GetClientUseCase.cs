@@ -1,3 +1,4 @@
+using AutologApi.API.Domain.Models;
 using AutologApi.API.Infra.Repository;
 using Microsoft.EntityFrameworkCore;
 
@@ -7,23 +8,27 @@ namespace AutologApi.API.UseCases
     {
         public async Task<IResult> Execute(GetClientUseCaseInput input)
         {
-            var Users = Repository.Users;
-
+            User? user;
             if (input.WithCars)
             {
-                Users.Include(u => u.Cars);
+                // TODO: descobrir uma forma melhor sem replicar o filtro
+                user = await Repository
+                    .Users.Include(u => u.Cars)
+                    .FirstOrDefaultAsync(u => u.CpfCnpj == input.CpfCnpj || u.Email == input.Email);
+            }
+            else
+            {
+                user = await Repository.Users.FirstOrDefaultAsync(u =>
+                    u.CpfCnpj == input.CpfCnpj || u.Email == input.Email
+                );
             }
 
-            var client = await Users.FirstOrDefaultAsync(u =>
-                u.CpfCnpj == input.CpfCnpj || u.Email == input.Email
-            );
-
-            if (client is null)
+            if (user is null)
             {
                 return Results.NotFound("Cliente não encontrado");
             }
 
-            return Results.Ok(client);
+            return Results.Ok(user);
         }
     }
 }
