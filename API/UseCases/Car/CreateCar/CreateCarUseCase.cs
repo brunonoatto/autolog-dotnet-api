@@ -8,7 +8,9 @@ namespace AutologApi.API.UseCases
     {
         public async Task<IResult> Execute(CreateCarUseCaseInput input)
         {
-            var isLicenseExist = await Repository.Cars.AnyAsync(c => c.License == input.License);
+            var carInput = input.Car;
+
+            var isLicenseExist = await Repository.Cars.AnyAsync(c => c.License == carInput.License);
 
             if (isLicenseExist)
             {
@@ -18,10 +20,10 @@ namespace AutologApi.API.UseCases
             var newCar = new Car
             {
                 ClientId = input.User.GetClientId(),
-                License = input.License,
-                Brand = input.Brand,
-                Model = input.Model,
-                Year = input.Year,
+                License = carInput.License,
+                Brand = carInput.Brand,
+                Model = carInput.Model,
+                Year = carInput.Year,
             };
 
             await Repository.Cars.AddAsync(newCar);

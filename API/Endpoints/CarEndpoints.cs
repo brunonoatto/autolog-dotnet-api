@@ -18,7 +18,7 @@ namespace AutologApi.API.Endpoints.Car
         }
 
         private static Task<IResult> CreateCar(
-            [FromBody] CreateCarUseCaseInput input,
+            [AsParameters] CreateCarUseCaseInput input,
             [FromServices] CreateCarUseCase CreateCarUseCase
         )
         {
