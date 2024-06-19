@@ -19,6 +19,11 @@ namespace AutologApi.API.UseCases
                 return Results.BadRequest("Veículo não pertence ao Cliente logado.");
             }
 
+            if (car.ClientId == input.ClientIdToTrasnfer)
+            {
+                return Results.BadRequest("Veículo já pertence a você.");
+            }
+
             var clientToTransfer = await Repository.Users.FirstOrDefaultAsync(u =>
                 u.Id == input.ClientIdToTrasnfer
             );
