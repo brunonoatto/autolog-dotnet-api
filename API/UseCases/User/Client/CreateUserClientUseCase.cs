@@ -17,7 +17,7 @@ namespace AutologApi.API.UseCases
 
             if (user is not null)
             {
-                if (user.Email == "*")
+                if (!user.HasLogin)
                 {
                     await CreateExistUser(user, input);
 
