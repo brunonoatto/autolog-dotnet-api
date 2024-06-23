@@ -23,8 +23,8 @@ namespace AutologApi.API.UseCases
 
                 var newUser = new User
                 {
-                    Email = "*",
-                    Password = "*",
+                    Email = User.WITHOUT_LOGIN_TEXT,
+                    Password = User.WITHOUT_LOGIN_TEXT,
                     CpfCnpj = bodyData.NewClient.CpfCnpj,
                     Name = bodyData.NewClient.Name,
                     Phone = bodyData.NewClient.Phone,
