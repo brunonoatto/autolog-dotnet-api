@@ -3,5 +3,5 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace AutologApi.API.UseCases
 {
-    public record GetBudgetUseCaseInput([FromRoute] int Os, ClaimsPrincipal User);
+    public record GetBudgetUseCaseInput([FromRoute] string OsOrId, ClaimsPrincipal User);
 }

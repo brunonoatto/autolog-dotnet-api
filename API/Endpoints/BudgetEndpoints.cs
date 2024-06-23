@@ -12,7 +12,7 @@ namespace AutologApi.API.Endpoints.Budget
 
             BudgetGroup.MapPost("/", CreateBudget);
             BudgetGroup.MapGet("/", ListBudgets);
-            BudgetGroup.MapGet("/{os}", GetBudget);
+            BudgetGroup.MapGet("/{osOrId}", GetBudget);
             BudgetGroup.MapPatch("/approve/{budgetId}", ApproveBudget);
             BudgetGroup.MapPatch("/send-for-approve/{budgetId}", SendFormApproveBudget);
             BudgetGroup.MapPatch("/start-service/{budgetId}", StartServiceBudget);

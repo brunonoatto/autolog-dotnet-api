@@ -8,17 +8,9 @@ namespace AutologApi.API.UseCases
     {
         public async Task<IResult> Execute(GetBudgetUseCaseInput input)
         {
-            Guid? garageId =
-                input.User.GetUserType() == UserTypeEnum.Garage ? input.User.GetGarageId() : null;
+            var isOS = input.OsOrId.All(Char.IsDigit);
 
-            var budget = await Repository
-                .Budgets.Include(b => b.Items.Where(i => i.IsEnabled))
-                .Include(b => b.Car)
-                .Include(b => b.Garage)
-                .ThenInclude(g => g!.User)
-                .FirstOrDefaultAsync(b =>
-                    b.Os == input.Os && (!garageId.HasValue || b.GarageId == garageId)
-                );
+            var budget = isOS ? await GetBudgetByOSAsync(input) : await GetById(input.OsOrId);
 
             if (budget is null)
             {
@@ -40,6 +32,39 @@ namespace AutologApi.API.UseCases
             );
 
             return Results.Ok(budgetOutput);
+        }
+
+        private async Task<Budget?> GetBudgetByOSAsync(GetBudgetUseCaseInput Input)
+        {
+            Int32.TryParse(Input.OsOrId, out int Os);
+
+            Guid? garageId =
+                Input.User.GetUserType() == UserTypeEnum.Garage ? Input.User.GetGarageId() : null;
+
+            var budget = await Repository
+                .Budgets.Include(b => b.Items.Where(i => i.IsEnabled))
+                .Include(b => b.Car)
+                .Include(b => b.Garage)
+                .ThenInclude(g => g!.User)
+                .FirstOrDefaultAsync(b =>
+                    b.Os == Os && (!garageId.HasValue || b.GarageId == garageId)
+                );
+
+            return budget;
+        }
+
+        private async Task<Budget?> GetById(string Id)
+        {
+            Guid.TryParse(Id, out Guid idGuid);
+
+            var budget = await Repository
+                .Budgets.Include(b => b.Items.Where(i => i.IsEnabled))
+                .Include(b => b.Car)
+                .Include(b => b.Garage)
+                .ThenInclude(g => g!.User)
+                .FirstOrDefaultAsync(b => b.Id == idGuid);
+
+            return budget;
         }
     }
 }
