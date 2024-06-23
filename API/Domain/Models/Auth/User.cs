@@ -10,6 +10,8 @@ namespace AutologApi.API.Domain.Models
 
     public class User : EntityBase
     {
+        public static string WITHOUT_LOGIN_TEXT = "*";
+
         public required string Name { get; set; }
 
         // TODO: Unique
@@ -20,5 +22,10 @@ namespace AutologApi.API.Domain.Models
         public required UserTypeEnum Type { get; set; }
 
         public virtual ICollection<Car> Cars { get; init; } = [];
+
+        public bool HasLogin
+        {
+            get { return Email != WITHOUT_LOGIN_TEXT; }
+        }
     }
 }
