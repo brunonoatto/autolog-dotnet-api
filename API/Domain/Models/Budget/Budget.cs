@@ -35,7 +35,7 @@ namespace AutologApi.API.Domain.Models
             var link =
                 User?.Email != null
                     ? $"http://127.0.0.1:5173/cliente/orcamento/{Os}"
-                    : $"http://127.0.0.1:5173/orcamento/{Os}";
+                    : $"http://127.0.0.1:5173/orcamento/{Id}";
 
             var msg =
                 $"Olá {User?.Name}, aqui é da mecênica {Garage?.User?.Name}.\n\nSeu orçamento está pronto, basta clicar no link abaixo para revisar e aprovar.\nIniciaremos o serviço mediante aprovação do orçamento.\n\nLink: {link}";
