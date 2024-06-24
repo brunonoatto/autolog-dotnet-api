@@ -28,6 +28,7 @@ namespace AutologApi.API.UseCases
                     b.GarageId,
                     b.Garage!.User!.Name,
                     b.Observation,
+                    b.ObservationClient,
                     b.CreatedDate.ToShortDateString(),
                     b.Car!.License,
                     b.Status,

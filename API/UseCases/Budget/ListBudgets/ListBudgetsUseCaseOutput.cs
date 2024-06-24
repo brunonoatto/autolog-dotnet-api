@@ -15,6 +15,7 @@ namespace AutologApi.API.UseCases
         Guid GarageId,
         string GarageName,
         string? Observation,
+        string? ObservationClient,
         string CreatedDate,
         string License,
         BudgetStatusEnum Status,

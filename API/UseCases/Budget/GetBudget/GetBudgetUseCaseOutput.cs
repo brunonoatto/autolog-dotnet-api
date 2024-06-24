@@ -10,6 +10,7 @@ namespace AutologApi.API.UseCases
         BudgetStatusEnum Status,
         Guid ClientId,
         string? Observation,
+        string? ObservationClient,
         string CreatedDate,
         string GarageName,
         Car Car,

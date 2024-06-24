@@ -1,6 +1,7 @@
 using AutologApi.API.Domain.Models;
 using AutologApi.API.Infra.Repository;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 
 namespace AutologApi.API.UseCases
 {
@@ -24,6 +25,11 @@ namespace AutologApi.API.UseCases
             }
 
             budget.Status = NewStatus;
+
+            if (input.ObservationClient is not null)
+            {
+                budget.ObservationClient = input.ObservationClient;
+            }
 
             Repository.Budgets.Update(budget);
             await Repository.SaveChangesAsync();

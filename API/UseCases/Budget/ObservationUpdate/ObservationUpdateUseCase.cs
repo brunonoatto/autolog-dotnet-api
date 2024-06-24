@@ -18,7 +18,14 @@ namespace AutologApi.API.UseCases
                 return Results.BadRequest("Orçamento não encontrado.");
             }
 
-            budget.Observation = input.Data.Observation;
+            if (input.Data.OfClient)
+            {
+                budget.ObservationClient = input.Data.Observation;
+            }
+            else
+            {
+                budget.Observation = input.Data.Observation;
+            }
 
             Repository.Budgets.Update(budget);
             await Repository.SaveChangesAsync();

@@ -24,6 +24,7 @@ namespace AutologApi.API.Domain.Models
         public required Guid CarId { get; set; }
         public required BudgetStatusEnum Status { get; set; }
         public string? Observation { get; set; }
+        public string? ObservationClient { get; set; }
 
         public virtual User? User { get; set; }
         public virtual Garage? Garage { get; set; }

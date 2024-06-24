@@ -2,7 +2,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace AutologApi.API.UseCases
 {
-    public record ObservationUpdateUseCaseInputData(string Observation);
+    public record ObservationUpdateUseCaseInputData(string? Observation, bool OfClient = false);
 
     public record ObservationUpdateUseCaseInput(
         [FromRoute] Guid BudgetId,

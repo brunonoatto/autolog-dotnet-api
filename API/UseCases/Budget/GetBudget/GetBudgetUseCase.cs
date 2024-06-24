@@ -25,6 +25,7 @@ namespace AutologApi.API.UseCases
                 budget.Status,
                 budget.UserId,
                 budget.Observation,
+                budget.ObservationClient,
                 budget.CreatedDate.ToShortDateString(),
                 budget.Garage!.User!.Name,
                 budget.Car,
