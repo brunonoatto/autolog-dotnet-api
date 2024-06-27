@@ -1,4 +1,5 @@
 using AutologApi.API.Domain.Models;
+using AutologApi.API.Exceptions.UseCases.Budget;
 using AutologApi.API.Infra.Repository;
 using Microsoft.EntityFrameworkCore;
 
@@ -18,7 +19,7 @@ namespace AutologApi.API.UseCases
             {
                 if (bodyData.NewClient is null)
                 {
-                    return Results.BadRequest("Dados do Cliente não foram enviados.");
+                    throw new NotFoundClientException();
                 }
 
                 var newUser = new User
@@ -42,15 +43,16 @@ namespace AutologApi.API.UseCases
             {
                 if (bodyData.Car is null)
                 {
-                    return Results.BadRequest("Dados do Veículo não foram enviados.");
+                    throw new NotFoundCarException();
                 }
 
-                var isLicenseExist = await Repository.Cars.AnyAsync(c =>
+                var existCar = await Repository.Cars.FirstOrDefaultAsync(c =>
                     c.License == bodyData.Car.License
                 );
-                if (isLicenseExist)
+
+                if (existCar is not null && existCar.ClientId != clientId)
                 {
-                    return Results.BadRequest("Placa já cadastrada.");
+                    throw new LicenseAlreadyRegistredOtherClientException();
                 }
 
                 var newCar = new Car

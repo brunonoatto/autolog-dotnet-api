@@ -28,7 +28,7 @@ namespace AutologApi.API.Exceptions
         {
             var statusCode = exception switch
             {
-                // NotFoundException => StatusCodes.Status404NotFound,
+                CustomException => StatusCodes.Status404NotFound,
                 ValidationException => StatusCodes.Status400BadRequest,
                 UnauthorizedAccessException => StatusCodes.Status401Unauthorized,
                 _ => StatusCodes.Status500InternalServerError
