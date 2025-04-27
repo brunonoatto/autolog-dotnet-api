@@ -5,7 +5,6 @@ using BC = BCrypt.Net.BCrypt;
 
 namespace AutologApi.API.UseCases
 {
-    // public class CreateUserGarageUseCase(AppDbContext Repository, AppSettings AppSettings) : IUseCase<CreateUserGarageUseCaseInput>
     public class CreateUserGarageUseCase(AppDbContext Repository)
         : IUseCase<CreateUserGarageUseCaseInput>
     {
