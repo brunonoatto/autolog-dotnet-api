@@ -4,8 +4,11 @@ using AutologApi.API.Endpoints;
 using AutologApi.API.Exceptions;
 using AutologApi.API.Infra.Repository;
 using AutologApi.API.UseCases;
+using DotNetEnv;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
+
+Env.Load();
 
 var builder = WebApplication.CreateBuilder(args);
 

@@ -13,9 +13,7 @@ namespace AutologApi.API.Infra.Repository
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseNpgsql(
-                "Server=127.0.0.1;Port=5432;Pooling=true;Database=AUTOLOG_DB;User Id=postgres;Password=1234;"
-            );
+            optionsBuilder.UseNpgsql(Environment.GetEnvironmentVariable("DATABASE_URL"));
             // optionsBuilder.UseNpgsql(AppSettings.ConnectionStrings.DefaultConnection);
             base.OnConfiguring(optionsBuilder);
         }
