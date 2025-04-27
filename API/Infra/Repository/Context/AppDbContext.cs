@@ -14,7 +14,6 @@ namespace AutologApi.API.Infra.Repository
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             optionsBuilder.UseNpgsql(Environment.GetEnvironmentVariable("DATABASE_URL"));
-            // optionsBuilder.UseNpgsql(AppSettings.ConnectionStrings.DefaultConnection);
             base.OnConfiguring(optionsBuilder);
         }
     }

@@ -8,7 +8,6 @@
 //     public class AuthService : IAuthService
 //     {
 //         private AppDbContext repository { get; }
-//         private readonly int SALT = 8;
 
 //         public AuthService(AppDbContext repository)
 //         {
@@ -32,7 +31,7 @@
 //                 throw new Exception("Dados informados já cadastrados no sistema.");
 //             }
 
-//             string passwordHashed = BC.HashPassword(user.Password, SALT);
+//             string passwordHashed = BC.HashPassword(user.Password, Environment.GetEnvironmentVariable("HASH_SALT"));
 //             var newUser = new User
 //             {
 

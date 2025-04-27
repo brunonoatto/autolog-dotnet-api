@@ -58,8 +58,7 @@ namespace AutologApi.API.UseCases
         // Colocar essa função em algum helper
         private string GetHashPassword(string password)
         {
-            // return BC.HashPassword(input.Password, AppSettings.Hash.Salt);
-            return BC.HashPassword(password, 8);
+            return BC.HashPassword(password, Environment.GetEnvironmentVariable("HASH_SALT"));
         }
     }
 }

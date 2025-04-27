@@ -1,6 +1,5 @@
 using AutologApi.API.Domain.Models;
 using AutologApi.API.Infra.Repository;
-using AutologApi.API.Settings;
 using Microsoft.EntityFrameworkCore;
 using BC = BCrypt.Net.BCrypt;
 
@@ -21,8 +20,10 @@ namespace AutologApi.API.UseCases
                 return Results.Conflict("Dados informados já cadastrados no sistema.");
             }
 
-            // string passwordHashed = BC.HashPassword(input.Password, AppSettings.Hash.Salt);
-            string passwordHashed = BC.HashPassword(input.Password, 8);
+            string passwordHashed = BC.HashPassword(
+                input.Password,
+                Environment.GetEnvironmentVariable("HASH_SALT")
+            );
             var newUser = new User
             {
                 Name = input.Name,

@@ -5,15 +5,13 @@ using Microsoft.IdentityModel.Tokens;
 
 namespace AutologApi.API.UseCases
 {
-    // public class TokenService(AppSettings AppSettings)
     public class TokenService()
     {
-        public static string SecretByte = "5+IV)E2glD3xCH2rNTElZ_at9(TbG1N(E=pH)29*";
+        public static string SecretByte = Environment.GetEnvironmentVariable("HASH_JWT_KEY")!;
 
         public string Generate(TokenData tokenData)
         {
             var handler = new JwtSecurityTokenHandler();
-            // var key = Encoding.ASCII.GetBytes(AppSettings.Hash.JwtKey);
             var key = Encoding.ASCII.GetBytes(SecretByte);
             var credentials = new SigningCredentials(
                 new SymmetricSecurityKey(key),
