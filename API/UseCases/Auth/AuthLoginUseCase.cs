@@ -1,12 +1,15 @@
 using AutologApi.API.Domain.Models;
 using AutologApi.API.Infra.Repository;
+using AutologApi.API.UseCases.Auth;
 using Microsoft.EntityFrameworkCore;
-using BC = BCrypt.Net.BCrypt;
 
 namespace AutologApi.API.UseCases
 {
-    public class AuthLoginUseCase(AppDbContext Repository, TokenService TokenService)
-        : IUseCase<AuthLoginUseCaseInput>
+    public class AuthLoginUseCase(
+        AppDbContext Repository,
+        TokenService TokenService,
+        PasswordService passwordService
+    ) : IUseCase<AuthLoginUseCaseInput>
     {
         public async Task<IResult> Execute(AuthLoginUseCaseInput input)
         {
@@ -17,7 +20,7 @@ namespace AutologApi.API.UseCases
                 return Results.Unauthorized();
             }
 
-            var passwordIsValid = BC.Verify(input.Password, user.Password);
+            var passwordIsValid = passwordService.Verify(input.Password, user.Password);
 
             if (!passwordIsValid)
             {

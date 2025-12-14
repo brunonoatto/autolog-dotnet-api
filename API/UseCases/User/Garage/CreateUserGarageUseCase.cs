@@ -1,11 +1,11 @@
 using AutologApi.API.Domain.Models;
 using AutologApi.API.Infra.Repository;
+using AutologApi.API.UseCases.Auth;
 using Microsoft.EntityFrameworkCore;
-using BC = BCrypt.Net.BCrypt;
 
 namespace AutologApi.API.UseCases
 {
-    public class CreateUserGarageUseCase(AppDbContext Repository)
+    public class CreateUserGarageUseCase(AppDbContext Repository, PasswordService passwordService)
         : IUseCase<CreateUserGarageUseCaseInput>
     {
         public async Task<IResult> Execute(CreateUserGarageUseCaseInput input)
@@ -19,10 +19,8 @@ namespace AutologApi.API.UseCases
                 return Results.Conflict("Dados informados já cadastrados no sistema.");
             }
 
-            string passwordHashed = BC.HashPassword(
-                input.Password,
-                Environment.GetEnvironmentVariable("HASH_SALT")
-            );
+            string passwordHashed = passwordService.Create(input.Password);
+
             var newUser = new User
             {
                 Name = input.Name,

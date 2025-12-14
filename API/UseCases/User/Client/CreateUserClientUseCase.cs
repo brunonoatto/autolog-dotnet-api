@@ -1,11 +1,11 @@
 using AutologApi.API.Domain.Models;
 using AutologApi.API.Infra.Repository;
+using AutologApi.API.UseCases.Auth;
 using Microsoft.EntityFrameworkCore;
-using BC = BCrypt.Net.BCrypt;
 
 namespace AutologApi.API.UseCases
 {
-    public class CreateUserClientUseCase(AppDbContext Repository)
+    public class CreateUserClientUseCase(AppDbContext Repository, PasswordService passwordService)
         : IUseCase<CreateUserClientUseCaseInput>
     {
         public async Task<IResult> Execute(CreateUserClientUseCaseInput input)
@@ -30,7 +30,7 @@ namespace AutologApi.API.UseCases
             {
                 Name = input.Name,
                 Email = input.Email,
-                Password = GetHashPassword(input.Password),
+                Password = passwordService.Create(input.Password),
                 CpfCnpj = input.CpfCnpj,
                 Phone = input.Phone,
                 Type = UserTypeEnum.Client
@@ -48,16 +48,10 @@ namespace AutologApi.API.UseCases
             user.Phone = input.Phone;
             user.Email = input.Email;
 
-            user.Password = GetHashPassword(input.Password);
+            user.Password = passwordService.Create(input.Password);
 
             Repository.Users.Update(user);
             await Repository.SaveChangesAsync();
-        }
-
-        // Colocar essa função em algum helper
-        private string GetHashPassword(string password)
-        {
-            return BC.HashPassword(password, Environment.GetEnvironmentVariable("HASH_SALT"));
         }
     }
 }

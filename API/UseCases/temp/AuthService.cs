@@ -31,7 +31,7 @@
 //                 throw new Exception("Dados informados já cadastrados no sistema.");
 //             }
 
-//             string passwordHashed = BC.HashPassword(user.Password, Environment.GetEnvironmentVariable("HASH_SALT"));
+//             string passwordHashed = new PasswordCrypt().Create(user.Password);
 //             var newUser = new User
 //             {
 

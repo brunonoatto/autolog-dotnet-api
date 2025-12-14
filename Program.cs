@@ -4,6 +4,7 @@ using AutologApi.API.Endpoints;
 using AutologApi.API.Exceptions;
 using AutologApi.API.Infra.Repository;
 using AutologApi.API.UseCases;
+using AutologApi.API.UseCases.Auth;
 using DotNetEnv;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
@@ -48,6 +49,7 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddDbContext<AppDbContext>();
 
 builder.Services.AddSingleton<TokenService>();
+builder.Services.AddSingleton<PasswordService>();
 
 builder.Services.Configure<Microsoft.AspNetCore.Http.Json.JsonOptions>(options =>
     options.SerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles
