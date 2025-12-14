@@ -1,0 +1,40 @@
+version: "3.8"
+
+services:
+  # Serviço da sua API
+  autolog-api:
+    image: autolog-dotnet-api
+    container_name: autolog_api
+    depends_on:
+      - postgresdb
+    ports:
+      - "8080:8080"
+    # O .env é carregado aqui
+    env_file:
+      - ./.env
+    networks:
+      - autolog_network
+
+  # Serviço do Banco de Dados PostgreSQL
+  postgresdb:
+    image: postgres:16
+    container_name: autolog_postgres
+    # Porta mapeada para acesso externo (opcional)
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: 1234
+      POSTGRES_DB: AUTOLOG_DB # Use o mesmo nome de banco da sua connection string!
+    # Mantenha os dados persistentes no disco
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - autolog_network
+
+networks:
+  autolog_network:
+    driver: bridge
+
+volumes:
+  postgres_data:
