@@ -7,6 +7,7 @@ using AutologApi.API.UseCases;
 using AutologApi.API.UseCases.Auth;
 using DotNetEnv;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 
 Env.Load();
@@ -92,6 +93,21 @@ AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
 
 if (app.Environment.IsDevelopment())
 {
+    using (var scope = app.Services.CreateScope())
+    {
+        var dbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>(); // Certifique-se que o nome do seu DbContext está correto
+        try
+        {
+            Console.WriteLine("Applying database migrations...");
+            dbContext.Database.Migrate();
+            Console.WriteLine("Migrations applied successfully.");
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"An error occurred while migrating the database: {ex.Message}");
+        }
+    }
+
     app.UseSwagger();
     app.UseSwaggerUI();
 }

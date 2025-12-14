@@ -14,9 +14,14 @@ dotnet watch
 # build
 dotnet build
 
+# docker run
+docker-compose up --build -d
 ```
 
 ## Migrations
+
+Em produção elas são executadas pelo arquivo .github/workflows/ci.yaml
+Local são executadas quando a api sobe
 
 ```bash
 # add
