@@ -8,7 +8,6 @@ RUN dotnet restore "autolog-dotnet-api.csproj"
 
 # Copia todo o resto do código
 COPY . .
-# WORKDIR "/src/autolog-dotnet-api"
 RUN dotnet build "autolog-dotnet-api.csproj" -c Release -o /app/build
 
 # Publica a aplicação
@@ -25,4 +24,10 @@ EXPOSE 8443
 ENV ASPNETCORE_URLS=http://+:8080
 
 COPY --from=publish /app/publish .
+
+# Copia o bundle de migração da pasta gerada pelo GitHub Actions para a raiz do contêiner
+RUN if [ -f publish-output/efbundle ]; then \
+    cp publish-output/efbundle /efbundle; \
+fi
+
 ENTRYPOINT ["dotnet", "autolog-dotnet-api.dll"]
