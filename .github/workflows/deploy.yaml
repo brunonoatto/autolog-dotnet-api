@@ -49,7 +49,8 @@ jobs:
 
       - name: Deploy and Run Migrations via SSH
         run: |
-          ssh -i ~/.ssh/id_rsa ec2-user@${{ secrets.EC2_HOST }} << 'EOF'
+          CLEAN_HOST=$(echo "${{ secrets.EC2_HOST }}" | tr -d '[:space:]')
+          ssh -i ~/.ssh/id_rsa ec2-user@$CLEAN_HOST << 'EOF'
             set -e
             echo "DB_NAME=autologdb" > .env
             echo "DB_USER=postgres" >> .env
