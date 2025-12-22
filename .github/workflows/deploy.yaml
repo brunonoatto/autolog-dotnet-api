@@ -22,6 +22,20 @@ jobs:
           known_hosts: unnecessary # Ele vai ignorar o check inicial
           if_key_exists: replace
 
+      - name: Verify SSH Key Setup
+        run: |
+          echo "Verificando se o diretório .ssh existe..."
+          ls -d ~/.ssh
+
+          echo "Verificando se o arquivo id_rsa existe..."
+          ls -l ~/.ssh/id_rsa
+
+          echo "Verificando o tamanho do arquivo (deve ser > 0)..."
+          wc -c < ~/.ssh/id_rsa
+
+          echo "Verificando as primeiras linhas do formato (sem mostrar a chave)..."
+          head -n 1 ~/.ssh/id_rsa
+
       - name: Adding Known Hosts
         run: ssh-keyscan -H ${{ secrets.EC2_HOST }} >> ~/.ssh/known_hosts
 
