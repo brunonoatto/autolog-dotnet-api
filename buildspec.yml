@@ -18,7 +18,7 @@ phases:
           --document-name "AWS-RunShellScript" \
           --parameters '{
             "commands": [
-              "set -e", # Faz o script parar no primeiro erro que encontrar
+              "set -e",
               "cd /home/ec2-user",
               "if [ ! -d \"app\" ]; then git clone https://github.com/brunonoatto/autolog-dotnet-api app; fi",
               "cd app",
