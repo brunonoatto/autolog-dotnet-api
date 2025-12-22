@@ -1,12 +1,30 @@
 version: 0.2
+
 phases:
+  install:
+    commands:
+      - echo "Instalando dependências se necessário..."
+  pre_build:
+    commands:
+      - echo "Preparando para o deploy..."
+      # Substitua pelo ID da sua instância EC2
+      - INSTANCE_ID="i-0abcd1234efgh5678"
   build:
     commands:
-      - echo "Enviando comando de deploy para o EC2 via SSM..."
-      - INSTANCE_ID="i-04fb984b5ce6d529f"
+      - echo "Enviando comandos para a EC2 via SSM..."
       - |
         aws ssm send-command \
           --instance-ids "$INSTANCE_ID" \
           --document-name "AWS-RunShellScript" \
-          --parameters '{"commands":["cd /home/ubuntu/app", "git pull origin main", "docker-compose up -d --build"]}' \
+          --parameters '{
+            "commands": [
+              "cd /home/ec2-user",
+              "if [ ! -d \"app\" ]; then git clone https://github.com/brunonoatto/autolog-dotnet-api app; fi",
+              "cd app",
+              "git pull origin main",
+              "echo \"DB_PASSWORD=${DB_PASSWORD}\" > .env",
+              "docker compose -f docker-compose.prod.yml up -d --build",
+              "docker image prune -f"
+            ]
+          }' \
           --region us-east-1
