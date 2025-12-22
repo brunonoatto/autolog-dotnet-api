@@ -14,7 +14,10 @@ jobs:
       - name: Setup SSH
         run: |
           mkdir -p ~/.ssh
-          echo '${{ secrets.EC2_SSH_KEY }}' > ~/.ssh/id_rsa
+          # Usando cat << 'EOF' para evitar interpretação de caracteres da chave
+          cat << 'EOF' > ~/.ssh/id_rsa
+          ${{ secrets.EC2_SSH_KEY }}
+          EOF
           chmod 600 ~/.ssh/id_rsa
           ssh-keyscan -H ${{ secrets.EC2_HOST }} >> ~/.ssh/known_hosts
 
@@ -26,18 +29,18 @@ jobs:
       - name: Deploy and Run Migrations via SSH
         run: |
           ssh -i ~/.ssh/id_rsa ec2-user@${{ secrets.EC2_HOST }} << 'EOF'
-            # Criar arquivo .env com os segredos
-            echo 'DB_NAME=autologdb' > .env
-            echo 'DB_USER=postgres' >> .env
-            echo 'DB_PASSWORD=${{ secrets.DB_PASSWORD }}' >> .env
+            # Criar arquivo .env localmente na EC2
+            echo "DB_NAME=autologdb" > .env
+            echo "DB_USER=postgres" >> .env
+            echo "DB_PASSWORD=${{ secrets.DB_PASSWORD }}" >> .env
             
             # Build das imagens locais na EC2 (Mais simples para o seu caso atual)
             docker-compose -f docker-compose.prod.yml build
             
-            # 1. Rodar as Migrations (Container temporário)
+            # 1. Rodar Migrations (O container de build precisa ter o dotnet-ef como adicionamos no Dockerfile)
             docker-compose -f docker-compose.prod.yml run --rm api dotnet ef database update
             
-            # 2. Subir a aplicação
+            # 2. Subir os containers
             docker-compose -f docker-compose.prod.yml up -d
             
             # Limpar imagens antigas para não encher o disco da EC2
