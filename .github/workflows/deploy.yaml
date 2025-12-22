@@ -11,12 +11,12 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Install SSH Key
-        uses: shimataro/ssh-key-action@v2
-        with:
-          key: "${{secrets.EC2_SSH_KEY}}"
-          known_hosts: unnecessary # Ele vai ignorar o check inicial
-          if_key_exists: replace
+      - name: Setup SSH Key
+        run: |
+          mkdir -p ~/.ssh
+          # O echo entre aspas preserva as quebras de linha da secret
+          echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
+          chmod 600 ~/.ssh/id_rsa
 
       - name: Adding Known Hosts
         run: ssh-keyscan -H "${{secrets.EC2_HOST}}" >> ~/.ssh/known_hosts
