@@ -23,9 +23,9 @@ services:
     ports:
       - "5432:5432"
     environment:
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: 1234
-      POSTGRES_DB: AUTOLOG_DB # Use o mesmo nome de banco da sua connection string!
+      POSTGRES_DB: ${DB_NAME}
+      POSTGRES_USER: ${DB_USER}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
     # Mantenha os dados persistentes no disco
     volumes:
       - postgres_data:/var/lib/postgresql/data

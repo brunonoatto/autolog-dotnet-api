@@ -1,33 +1,28 @@
-# Estágio 1: Build (Compilação)
+# Estágio 1: Build da Aplicação
 FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 WORKDIR /src
 
-# Copia apenas o arquivo de projeto primeiro (para aproveitar cache de dependências)
+# Copiar arquivos de projeto e restaurar dependências
 COPY ["autolog-dotnet-api.csproj", "."]
 RUN dotnet restore "autolog-dotnet-api.csproj"
 
-# Copia todo o resto do código
+# Copiar o restante do código e compilar
 COPY . .
+# WORKDIR "/src/Autolog.Api"
 RUN dotnet build "autolog-dotnet-api.csproj" -c Release -o /app/build
 
-# Publica a aplicação
+# Estágio 2: Publicação
 FROM build AS publish
 RUN dotnet publish "autolog-dotnet-api.csproj" -c Release -o /app/publish /p:UseAppHost=false
 
-# Estágio 2: Runtime (Execução - Imagem final mais leve)
+# Estágio 3: Runtime Final (Imagem Leve)
 FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS final
 WORKDIR /app
-EXPOSE 8080
-EXPOSE 8443
-
-# Variável de ambiente para escutar na porta correta (importante para Cloud)
-ENV ASPNETCORE_URLS=http://+:8080
-
 COPY --from=publish /app/publish .
 
-# Copia o bundle de migração da pasta gerada pelo GitHub Actions para a raiz do contêiner
-RUN if [ -f publish-output/efbundle ]; then \
-    cp publish-output/efbundle /efbundle; \
-fi
+# Variáveis de ambiente padrão
+ENV ASPNETCORE_URLS=http://+:80
+ENV ASPNETCORE_ENVIRONMENT=Production
 
+EXPOSE 80
 ENTRYPOINT ["dotnet", "autolog-dotnet-api.dll"]

@@ -1,0 +1,31 @@
+version: "3.8"
+
+services:
+  db:
+    image: postgres:15-alpine
+    container_name: autolog_db_prod
+    restart: always
+    environment:
+      POSTGRES_DB: ${DB_NAME}
+      POSTGRES_USER: ${DB_USER}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    # Note: Não expomos a porta 5432 para o mundo, apenas para a rede interna do Docker
+
+  api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: autolog_api_prod
+    restart: always
+    depends_on:
+      - db
+    environment:
+      ConnectionStrings__DefaultConnection: "Host=db;Database=${DB_NAME};Username=${DB_USER};Password=${DB_PASSWORD}"
+      ASPNETCORE_ENVIRONMENT: Production
+    ports:
+      - "80:80"
+
+volumes:
+  postgres_data:
