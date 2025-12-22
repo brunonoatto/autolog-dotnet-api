@@ -8,7 +8,7 @@ phases:
     commands:
       - echo "Preparando para o deploy..."
       # Substitua pelo ID da sua instância EC2
-      - INSTANCE_ID="i-0abcd1234efgh5678"
+      - INSTANCE_ID="i-04fb984b5ce6d529f"
   build:
     commands:
       - echo "Enviando comandos para a EC2 via SSM..."
