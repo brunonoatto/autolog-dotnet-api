@@ -13,6 +13,11 @@ namespace AutologApi.API.Infra.Repository
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
+            string dbName = Environment.GetEnvironmentVariable("DB_NAME");
+            string dbUser = Environment.GetEnvironmentVariable("DB_USER");
+            string dbPassword = Environment.GetEnvironmentVariable("DB_PASSWORD");
+            string connString =
+                $"Server={dbName};Pooling=true;Database={dbName};User Id={dbUser};Password={dbPassword};";
             optionsBuilder.UseNpgsql(Environment.GetEnvironmentVariable("DATABASE_URL"));
             base.OnConfiguring(optionsBuilder);
         }
