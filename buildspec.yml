@@ -1,0 +1,12 @@
+version: 0.2
+phases:
+  build:
+    commands:
+      - echo "Enviando comando de deploy para o EC2 via SSM..."
+      - INSTANCE_ID="i-04fb984b5ce6d529f"
+      - |
+        aws ssm send-command \
+          --instance-ids "$INSTANCE_ID" \
+          --document-name "AWS-RunShellScript" \
+          --parameters '{"commands":["cd /home/ubuntu/app", "git pull origin main", "docker-compose up -d --build"]}' \
+          --region us-east-1
