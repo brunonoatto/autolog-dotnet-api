@@ -43,9 +43,8 @@ jobs:
 
       - name: Copy files to EC2
         run: |
-          CLEAN_HOST=$(echo "${{ secrets.EC2_HOST }}" | tr -d '[:space:]')
           # Adicionado ec2-user@ antes do host
-          scp -i ~/.ssh/id_rsa docker-compose.prod.yml Dockerfile ec2-user@$CLEAN_HOST:/home/ec2-user/
+          scp -i ~/.ssh/id_rsa docker-compose.prod.yml Dockerfile ec2-user@"${{ secrets.EC2_HOST }}":/home/ec2-user/
 
       - name: Deploy and Run Migrations via SSH
         run: |
