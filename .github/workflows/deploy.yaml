@@ -1,0 +1,45 @@
+name: Deploy to AWS EC2
+
+on:
+  push:
+    branches: ["main"]
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup SSH
+        run: |
+          mkdir -p ~/.ssh
+          echo "${{ secrets.EC2_SSH_KEY }}" > ~/.ssh/id_rsa
+          chmod 600 ~/.ssh/id_rsa
+          ssh-keyscan -H ${{ secrets.EC2_HOST }} >> ~/.ssh/known_hosts
+
+      - name: Copy files to EC2
+        run: |
+          # Copia o Dockerfile e o docker-compose.prod.yml para o servidor
+          scp -i ~/.ssh/id_rsa docker-compose.prod.yml Dockerfile ${{ secrets.EC2_HOST }}:/home/ec2-user/
+
+      - name: Deploy and Run Migrations via SSH
+        run: |
+          ssh -i ~/.ssh/id_rsa ec2-user@${{ secrets.EC2_HOST }} << 'EOF'
+            # Criar arquivo .env com os segredos
+            echo "DB_NAME=autologdb" > .env
+            echo "DB_USER=postgres" >> .env
+            echo "DB_PASSWORD=${{ secrets.DB_PASSWORD }}" >> .env
+            
+            # Build das imagens locais na EC2 (Mais simples para o seu caso atual)
+            docker-compose -f docker-compose.prod.yml build
+            
+            # 1. Rodar as Migrations (Container temporário)
+            docker-compose -f docker-compose.prod.yml run --rm api dotnet ef database update
+            
+            # 2. Subir a aplicação
+            docker-compose -f docker-compose.prod.yml up -d
+            
+            # Limpar imagens antigas para não encher o disco da EC2
+            docker image prune -f
+          EOF
