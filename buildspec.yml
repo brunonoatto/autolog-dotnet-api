@@ -18,13 +18,14 @@ phases:
           --document-name "AWS-RunShellScript" \
           --parameters '{
             "commands": [
+              "set -e", # Faz o script parar no primeiro erro que encontrar
               "cd /home/ec2-user",
               "if [ ! -d \"app\" ]; then git clone https://github.com/brunonoatto/autolog-dotnet-api app; fi",
               "cd app",
               "git pull origin main",
               "echo \"DB_PASSWORD=${DB_PASSWORD}\" > .env",
-              "docker compose -f docker-compose.prod.yml up -d --build",
-              "docker image prune -f"
+              "sudo docker compose -f docker-compose.prod.yml up -d --build",
+              "sudo docker image prune -f"
             ]
           }' \
           --region us-east-1
