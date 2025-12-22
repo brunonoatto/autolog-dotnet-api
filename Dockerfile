@@ -2,6 +2,11 @@
 FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 WORKDIR /src
 
+# Instala a ferramenta de migrations globalmente dentro do container de build
+RUN dotnet tool install --global dotnet-ef
+# Adiciona o caminho das ferramentas ao PATH do sistema para que o comando 'dotnet ef' seja reconhecido
+ENV PATH="$PATH:/root/.dotnet/tools"
+
 # Copiar arquivos de projeto e restaurar dependências
 COPY ["autolog-dotnet-api.csproj", "."]
 RUN dotnet restore "autolog-dotnet-api.csproj"
