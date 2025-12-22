@@ -14,7 +14,7 @@ jobs:
       - name: Setup SSH
         run: |
           mkdir -p ~/.ssh
-          echo "${{ secrets.EC2_SSH_KEY }}" > ~/.ssh/id_rsa
+          echo '${{ secrets.EC2_SSH_KEY }}' > ~/.ssh/id_rsa
           chmod 600 ~/.ssh/id_rsa
           ssh-keyscan -H ${{ secrets.EC2_HOST }} >> ~/.ssh/known_hosts
 
@@ -27,9 +27,9 @@ jobs:
         run: |
           ssh -i ~/.ssh/id_rsa ec2-user@${{ secrets.EC2_HOST }} << 'EOF'
             # Criar arquivo .env com os segredos
-            echo "DB_NAME=autologdb" > .env
-            echo "DB_USER=postgres" >> .env
-            echo "DB_PASSWORD=${{ secrets.DB_PASSWORD }}" >> .env
+            echo 'DB_NAME=autologdb' > .env
+            echo 'DB_USER=postgres' >> .env
+            echo 'DB_PASSWORD=${{ secrets.DB_PASSWORD }}' >> .env
             
             # Build das imagens locais na EC2 (Mais simples para o seu caso atual)
             docker-compose -f docker-compose.prod.yml build
