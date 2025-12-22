@@ -11,6 +11,17 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
+      - name: Debug Secrets Presence
+        run: |
+          set -x  # Isso faz o bash printar cada comando antes de executar
+          if [ -z "${{ secrets.EC2_HOST }}" ]; then echo "EC2_HOST is EMPTY"; else echo "EC2_HOST is set"; fi
+          if [ -z "${{ secrets.EC2_SSH_KEY }}" ]; then echo "EC2_SSH_KEY is EMPTY"; else echo "EC2_SSH_KEY is set"; fi
+
+      - name: Try to print secrets
+        run: |
+          echo "O IP do host é: ${{ secrets.EC2_HOST }}"
+          echo "A chave SSH começa com: ${{ secrets.EC2_SSH_KEY }}" | cut -c 1-20
+
       - name: Install SSH Key
         uses: shimataro/ssh-key-action@v2
         with:
