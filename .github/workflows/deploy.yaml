@@ -11,44 +11,64 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ secrets.AWS_REGION }}
+
+      - name: Get GitHub Runner IP
+        id: ip
+        run: echo "ipv4=$(curl -s https://checkip.amazonaws.com)" >> $GITHUB_OUTPUT
+
+      - name: Add Runner IP to Security Group
+        run: |
+          aws ec2 authorize-security-group-ingress \
+            --group-id ${{ secrets.AWS_SG_ID }} \
+            --protocol tcp \
+            --port 22 \
+            --cidr ${{ steps.ip.outputs.ipv4 }}/32
+
       - name: Setup SSH Key
         run: |
           mkdir -p ~/.ssh
-          # O echo entre aspas preserva as quebras de linha da secret
           echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
           chmod 600 ~/.ssh/id_rsa
 
       - name: Adding Known Hosts
         run: |
-          mkdir -p ~/.ssh
-          # Usamos env para passar o segredo de forma segura para o shell
-          CLEAN_HOST=$(echo "$EC2_HOST" | tr -d '[:space:]')
-          ssh-keyscan -v -H "$CLEAN_HOST" >> ~/.ssh/known_hosts
-        env:
-          EC2_HOST: ${{ secrets.EC2_HOST }}
+          CLEAN_HOST=$(echo "${{ secrets.EC2_HOST }}" | tr -d '[:space:]')
+          ssh-keyscan -H "$CLEAN_HOST" >> ~/.ssh/known_hosts
 
       - name: Copy files to EC2
         run: |
-          # Copia o Dockerfile e o docker-compose.prod.yml para o servidor
-          scp -i ~/.ssh/id_rsa docker-compose.prod.yml Dockerfile ${{secrets.EC2_HOST}}:/home/ec2-user/
+          # Adicionado ec2-user@ antes do host
+          scp -i ~/.ssh/id_rsa docker-compose.prod.yml Dockerfile ec2-user@${{ secrets.EC2_HOST }}:/home/ec2-user/
 
       - name: Deploy and Run Migrations via SSH
         run: |
-          ssh -i ~/.ssh/id_rsa ec2-user@${{secrets.EC2_HOST}} << 'EOF'
-            # Criar arquivo .env localmente na EC2
+          ssh -i ~/.ssh/id_rsa ec2-user@${{ secrets.EC2_HOST }} << 'EOF'
+            set -e
             echo "DB_NAME=autologdb" > .env
             echo "DB_USER=postgres" >> .env
-            echo "DB_PASSWORD=${{secrets.DB_PASSWORD}}" >> .env
+            echo "DB_PASSWORD=${{ secrets.DB_PASSWORD }}" >> .env
             
-            # Build das imagens locais na EC2 (Mais simples para o seu caso atual)
-            docker-compose -f docker-compose.prod.yml build
+            # Tenta usar 'docker compose' (V2) e cai para 'docker-compose' (V1) se necessário
+            DOCKER_CMD="docker compose"
+            if ! $DOCKER_CMD version > /dev/null 2>&1; then DOCKER_CMD="docker-compose"; fi
             
-            # 1. Rodar Migrations (O container de build precisa ter o dotnet-ef como adicionamos no Dockerfile)
-            docker-compose -f docker-compose.prod.yml run --rm api dotnet ef database update
-            
-            # 2. Subir os containers
-            docker-compose -f docker-compose.prod.yml up -d
-            
-            # Limpar imagens antigas para não encher o disco da EC2
+            $DOCKER_CMD -f docker-compose.prod.yml build
+            $DOCKER_CMD -f docker-compose.prod.yml run --rm api dotnet ef database update
+            $DOCKER_CMD -f docker-compose.prod.yml up -d
             docker image prune -f
           EOF
+
+      - name: Remove Runner IP from Security Group
+        if: always() # Garante que a porta será fechada mesmo se o deploy falhar
+        run: |
+          aws ec2 revoke-security-group-ingress \
+            --group-id ${{ secrets.AWS_SG_ID }} \
+            --protocol tcp \
+            --port 22 \
+            --cidr ${{ steps.ip.outputs.ipv4 }}/32
