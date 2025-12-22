@@ -22,7 +22,10 @@ jobs:
         run: |
           mkdir -p ~/.ssh
           # Usamos env para passar o segredo de forma segura para o shell
-          ssh-keyscan -v -H "${{ secrets.EC2_HOST }}" >> ~/.ssh/known_hosts
+          CLEAN_HOST=$(echo "$EC2_HOST" | tr -d '[:space:]')
+          ssh-keyscan -v -H "$EC2_HOST" >> ~/.ssh/known_hosts
+        env:
+          EC2_HOST: ${{ secrets.EC2_HOST }}
 
       - name: Copy files to EC2
         run: |
