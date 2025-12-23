@@ -5,13 +5,11 @@ namespace AutologApi.API.Endpoints.Dashboard
 {
     public static class DashboardEndpoints
     {
-        public static WebApplication MapDashboardEndpoints(this WebApplication app)
+        public static void MapDashboardEndpoints(this IEndpointRouteBuilder app)
         {
             var DashboardGroup = app.MapGroup("dashboard");
 
             DashboardGroup.MapGet("garage", GarageDashboard);
-
-            return app;
         }
 
         private static Task<IResult> GarageDashboard(

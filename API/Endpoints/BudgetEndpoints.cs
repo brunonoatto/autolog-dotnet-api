@@ -6,7 +6,7 @@ namespace AutologApi.API.Endpoints.Budget
 {
     public static class BudgetEndpoints
     {
-        public static WebApplication MapBudgetEndpoints(this WebApplication app)
+        public static void MapBudgetEndpoints(this IEndpointRouteBuilder app)
         {
             var BudgetGroup = app.MapGroup("budget");
 
@@ -21,8 +21,6 @@ namespace AutologApi.API.Endpoints.Budget
             BudgetGroup.MapPatch("/finish/{budgetId}", FinishBudget);
             BudgetGroup.MapGet("/link-whats/{budgetId}", GetWhatsAppLinkBudget);
             BudgetGroup.MapPatch("/observation/{budgetId}", ObservationUpdate);
-
-            return app;
         }
 
         private static Task<IResult> ListBudgets(

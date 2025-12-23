@@ -8,15 +8,19 @@ namespace AutologApi.API.Endpoints
 {
     public static class EndpointExtension
     {
-        public static void MapEndpoints(this WebApplication app)
+        public static void MapEndpoints(this IEndpointRouteBuilder app)
         {
-            app.MapAuthEndpoints()
-                .MapCarEndpoints()
-                .MapClientEndpoints()
-                .MapDashboardEndpoints()
-                .MapUserEndpoints()
-                .MapBudgetEndpoints()
-                .MapBudgetItemEndpoints();
+            // 1. Cria o grupo principal "/api"
+            var apiGroup = app.MapGroup("api");
+
+            // 2. Passa esse grupo para os outros métodos
+            apiGroup.MapAuthEndpoints();
+            apiGroup.MapCarEndpoints();
+            apiGroup.MapClientEndpoints();
+            apiGroup.MapDashboardEndpoints();
+            apiGroup.MapUserEndpoints();
+            apiGroup.MapBudgetEndpoints();
+            apiGroup.MapBudgetItemEndpoints();
         }
     }
 }

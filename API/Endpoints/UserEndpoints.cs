@@ -5,14 +5,12 @@ namespace AutologApi.API.Endpoints.User
 {
     public static class UserEndpoints
     {
-        public static WebApplication MapUserEndpoints(this WebApplication app)
+        public static void MapUserEndpoints(this IEndpointRouteBuilder app)
         {
             var userGroup = app.MapGroup("user");
 
             userGroup.MapPost("/create-garage", CreateGarage);
             userGroup.MapPost("/create-client", CreateUserClient);
-
-            return app;
         }
 
         private static Task<IResult> CreateUserClient(

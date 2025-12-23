@@ -5,7 +5,7 @@ namespace AutologApi.API.Endpoints.Car
 {
     public static class CarEndpoints
     {
-        public static WebApplication MapCarEndpoints(this WebApplication app)
+        public static void MapCarEndpoints(this IEndpointRouteBuilder app)
         {
             var carGroup = app.MapGroup("car");
 
@@ -13,8 +13,6 @@ namespace AutologApi.API.Endpoints.Car
             carGroup.MapGet("/{license}", GetCarByLicense);
             carGroup.MapGet("/client", ListClientCars);
             carGroup.MapPatch("/{carId}/transfer/{clientIdToTrasnfer}", TransferCar);
-
-            return app;
         }
 
         private static Task<IResult> CreateCar(

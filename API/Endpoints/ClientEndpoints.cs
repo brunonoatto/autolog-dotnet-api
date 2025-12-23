@@ -5,14 +5,12 @@ namespace AutologApi.API.Endpoints.Client
 {
     public static class ClientEndpoints
     {
-        public static WebApplication MapClientEndpoints(this WebApplication app)
+        public static void MapClientEndpoints(this IEndpointRouteBuilder app)
         {
             var clientGroup = app.MapGroup("client");
 
             clientGroup.MapGet("/", GetClient);
             clientGroup.MapGet("/{clientId}/cars", GetClientCars);
-
-            return app;
         }
 
         private static Task<IResult> GetClient(

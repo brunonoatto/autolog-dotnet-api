@@ -5,14 +5,12 @@ namespace AutologApi.API.Endpoints.Budget
 {
     public static class BudgetItemEndpoints
     {
-        public static WebApplication MapBudgetItemEndpoints(this WebApplication app)
+        public static void MapBudgetItemEndpoints(this IEndpointRouteBuilder app)
         {
             var BudgetGroup = app.MapGroup("budget-item");
 
             BudgetGroup.MapPost("/{budgetId}", CreateBudgetItem);
             BudgetGroup.MapDelete("/{budgetItemId}", DeleteBudgetItem);
-
-            return app;
         }
 
         private static Task<IResult> CreateBudgetItem(

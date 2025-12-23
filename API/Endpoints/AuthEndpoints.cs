@@ -5,13 +5,11 @@ namespace AutologApi.API.Endpoints
 {
     public static class AuthEndpoints
     {
-        public static WebApplication MapAuthEndpoints(this WebApplication app)
+        public static void MapAuthEndpoints(this IEndpointRouteBuilder app)
         {
             var authGroup = app.MapGroup("auth");
 
             authGroup.MapPost("/login", Login);
-
-            return app;
         }
 
         private static Task<IResult> Login(
