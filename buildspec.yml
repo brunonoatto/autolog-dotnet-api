@@ -19,7 +19,7 @@ phases:
             \"commands\": [
               \"set -e\",
               \"cd /home/ec2-user\",
-              \"if [ ! -d \"app\" ]; then git clone https://github.com/brunonoatto/autolog-dotnet-api app; fi\",
+              \"if [ ! -d "app" ]; then git clone https://github.com/brunonoatto/autolog-dotnet-api app; fi\",
               \"cd app\",
               \"git pull origin main\",
               \"echo 'DB_PASSWORD=$DB_PASSWORD' > .env\",
