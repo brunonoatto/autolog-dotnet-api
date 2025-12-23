@@ -22,14 +22,11 @@ phases:
               "cd app",
               "git pull origin main",
               
-              # Injetando as variáveis do CodeBuild para o .env da EC2
               "echo \"DB_PASSWORD=${DB_PASSWORD}\" > .env",
               "echo \"DB_NAME=${DB_NAME}\" >> .env",
               "echo \"DB_USER=${DB_USER}\" >> .env",
               "echo \"HASH_SALT=${HASH_SALT}\" >> .env",
               "echo \"HASH_JWT_KEY=${HASH_JWT_KEY}\" >> .env",
-              
-              # Rodando o build sem Buildx para evitar o erro de versão
               "export DOCKER_BUILDKIT=0",
               "export COMPOSE_DOCKER_CLI_BUILD=0",
               "sudo /usr/local/bin/docker-compose -f docker-compose.prod.yml up -d --build",
