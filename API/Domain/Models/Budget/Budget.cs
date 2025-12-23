@@ -41,8 +41,7 @@ namespace AutologApi.API.Domain.Models
             var msg =
                 $"Olá {User?.Name}, aqui é da mecênica {Garage?.User?.Name}.\n\nSeu orçamento está pronto, basta clicar no link abaixo para revisar e aprovar.\nIniciaremos o serviço mediante aprovação do orçamento.\n\nLink: {link}";
 
-            var whatsAppLink =
-                $"https://web.whatsapp.com/send/?phone=55{User?.Phone}&text={HttpUtility.UrlEncode(msg)}&type=phone_number&app_absent=0";
+            var whatsAppLink = $"https://wa.me/55{User?.Phone}?text={HttpUtility.UrlEncode(msg)}";
 
             return whatsAppLink;
         }
