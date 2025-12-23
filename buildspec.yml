@@ -29,7 +29,7 @@ phases:
               "echo \"HASH_JWT_KEY=${HASH_JWT_KEY}\" >> .env",
               "export DOCKER_BUILDKIT=0",
               "export COMPOSE_DOCKER_CLI_BUILD=0",
-              "sudo docker build -t app-api -f Dockerfile .",
+              "sudo docker build -t api -f Dockerfile .",
               "sudo /usr/local/bin/docker-compose -f docker-compose.prod.yml up -d",
               "sudo docker image prune -f"
             ]
