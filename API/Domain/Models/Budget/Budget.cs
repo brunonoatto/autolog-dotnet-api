@@ -33,9 +33,10 @@ namespace AutologApi.API.Domain.Models
 
         public string GetWhatsAppBudgetLink()
         {
+            // TODO: colocar url da aplicação nas envs
             var link = User!.HasLogin
-                ? $"http://127.0.0.1:5173/cliente/orcamento/{Os}"
-                : $"http://127.0.0.1:5173/orcamento/{Id}";
+                ? $"https://d1nf456dx65l85.cloudfront.net/cliente/orcamento/{Os}"
+                : $"https://d1nf456dx65l85.cloudfront.net/orcamento/{Id}";
 
             var msg =
                 $"Olá {User?.Name}, aqui é da mecênica {Garage?.User?.Name}.\n\nSeu orçamento está pronto, basta clicar no link abaixo para revisar e aprovar.\nIniciaremos o serviço mediante aprovação do orçamento.\n\nLink: {link}";
