@@ -27,7 +27,7 @@ WORKDIR /app
 COPY --from=publish /app/publish .
 
 # Variáveis de ambiente padrão
-ENV ASPNETCORE_URLS=http://+:80
+ENV ASPNETCORE_URLS=https://+:80
 ENV ASPNETCORE_ENVIRONMENT=Production
 
 EXPOSE 80
