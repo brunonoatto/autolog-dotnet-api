@@ -33,7 +33,7 @@ services:
       - HASH_SALT=${HASH_SALT}
       - HASH_JWT_KEY=${HASH_JWT_KEY}
     ports:
-      - "80:8080" # Mapeia a porta 80 do host para a 8080 do container (padrão .NET 8+)
+      - "8080:80"
     networks:
       - autolog_network
 
