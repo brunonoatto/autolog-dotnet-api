@@ -15,23 +15,22 @@ phases:
         aws ssm send-command \
           --instance-ids "$INSTANCE_ID" \
           --document-name "AWS-RunShellScript" \
-          --parameters '{
-            "commands": [
-              "set -e",
-              "cd /home/ec2-user",
-              "if [ ! -d \"app\" ]; then git clone https://github.com/brunonoatto/autolog-dotnet-api app; fi",
-              "cd app",
-              "git pull origin main",
-              "echo \"DB_PASSWORD=${DB_PASSWORD}\" > .env",
-              "echo \"DB_NAME=${DB_NAME}\" >> .env",
-              "echo \"DB_USER=${DB_USER}\" >> .env",
-              "echo \"HASH_SALT=${HASH_SALT}\" >> .env",
-              "echo \"HASH_JWT_KEY=${HASH_JWT_KEY}\" >> .env",
-              "export DOCKER_BUILDKIT=0",
-              "export COMPOSE_DOCKER_CLI_BUILD=0",
-              "sudo docker build -t autolog-api -f Dockerfile .",
-              "sudo /usr/local/bin/docker-compose -f docker-compose.prod.yml up -d",
-              "sudo docker image prune -f"
+          --parameters "{
+            \"commands\": [
+              \"set -e\",
+              \"cd /home/ec2-user\",
+              \"if [ ! -d \"app\" ]; then git clone https://github.com/brunonoatto/autolog-dotnet-api app; fi\",
+              \"cd app\",
+              \"git pull origin main\",
+              \"echo 'DB_PASSWORD=$DB_PASSWORD' > .env\",
+              \"echo 'DB_NAME=$DB_NAME' >> .env\",
+              \"echo 'DB_USER=$DB_USER' >> .env\",
+              \"echo 'HASH_SALT=$HASH_SALT' >> .env\",
+              \"echo 'HASH_JWT_KEY=$HASH_JWT_KEY' >> .env\",
+              \"export DOCKER_BUILDKIT=0\",
+              \"sudo docker build -t autolog_api -f Dockerfile .\",
+              \"sudo /usr/local/bin/docker-compose -f docker-compose.prod.yml up -d --no-build\",
+              \"sudo docker image prune -f\"
             ]
-          }' \
+          }" \
           --region us-east-1

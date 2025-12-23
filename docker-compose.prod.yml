@@ -1,7 +1,7 @@
 services:
   db:
     image: postgres:15-alpine
-    container_name: autolog_db_prod
+    container_name: autolog_db
     restart: always
     environment:
       POSTGRES_DB: ${DB_NAME}
@@ -12,11 +12,10 @@ services:
     # Note: Não expomos a porta 5432 para o mundo, apenas para a rede interna do Docker
 
   api:
-    image: autolog-api
     build:
       context: .
       dockerfile: Dockerfile
-    container_name: autolog_api_prod
+    container_name: autolog_api
     restart: always
     depends_on:
       - db
