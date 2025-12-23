@@ -30,3 +30,8 @@ dotnet ef migrations add <name>
 # update database
 dotnet ef database update
 ```
+
+## AWS
+
+- Certificado em downloads, mover para um local seguro
+- Acessar console da instância em PROD: `ssh -i autolog-key.pem ec2-user@18.233.74.165`
