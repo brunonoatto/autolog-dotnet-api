@@ -3,7 +3,7 @@ FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 WORKDIR /src
 
 # Instala a ferramenta de migrations globalmente dentro do container de build
-RUN dotnet tool install --global dotnet-ef
+RUN dotnet tool install --global dotnet-ef || echo "Falha na instalação, tentando novamente..." && dotnet tool install --global dotnet-ef --version 8.0.0
 # Adiciona o caminho das ferramentas ao PATH do sistema para que o comando 'dotnet ef' seja reconhecido
 ENV PATH="$PATH:/root/.dotnet/tools"
 
