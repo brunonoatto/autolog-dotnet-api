@@ -21,7 +21,6 @@ phases:
               "if [ ! -d \"app\" ]; then git clone https://github.com/brunonoatto/autolog-dotnet-api app; fi",
               "cd app",
               "git pull origin main",
-              
               "echo \"DB_PASSWORD=${DB_PASSWORD}\" > .env",
               "echo \"DB_NAME=${DB_NAME}\" >> .env",
               "echo \"DB_USER=${DB_USER}\" >> .env",
