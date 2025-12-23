@@ -18,7 +18,7 @@ namespace AutologApi.API.Infra.Repository
             string dbPassword = Environment.GetEnvironmentVariable("DB_PASSWORD");
             string connString =
                 $"Server={dbName};Pooling=true;Database={dbName};User Id={dbUser};Password={dbPassword};";
-            optionsBuilder.UseNpgsql(Environment.GetEnvironmentVariable("DATABASE_URL"));
+            optionsBuilder.UseNpgsql(connString);
             base.OnConfiguring(optionsBuilder);
         }
     }
