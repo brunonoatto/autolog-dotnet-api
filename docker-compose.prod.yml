@@ -9,28 +9,37 @@ services:
       POSTGRES_PASSWORD: ${DB_PASSWORD}
     volumes:
       - postgres_data:/var/lib/postgresql/data
-    # Note: Não expomos a porta 5432 para o mundo, apenas para a rede interna do Docker
+    networks:
+      - autolog_network
 
   api:
-    image: autolog_api
     build:
       context: .
       dockerfile: Dockerfile
+      args:
+        - ASPNETCORE_ENVIRONMENT=Production
+    image: autolog_api
     container_name: autolog_api
     restart: always
     depends_on:
       - db
     env_file: .env
     environment:
-      #ConnectionStrings__DefaultConnection: "Host=db;Database=${DB_NAME};Username=${DB_USER};Password=${DB_PASSWORD}"
-      ASPNETCORE_ENVIRONMENT: Production
-      DB_PASSWORD: ${DB_PASSWORD}
-      DB_NAME: ${DB_NAME}
-      DB_USER: ${DB_USER}
-      HASH_SALT: ${HASH_SALT}
-      HASH_JWT_KEY: ${HASH_JWT_KEY}
+      - ASPNETCORE_ENVIRONMENT=Production
+      - DB_PASSWORD=${DB_PASSWORD}
+      - DB_HOST=${DB_HOST}
+      - DB_NAME=${DB_NAME}
+      - DB_USER=${DB_USER}
+      - HASH_SALT=${HASH_SALT}
+      - HASH_JWT_KEY=${HASH_JWT_KEY}
     ports:
-      - "80:80"
+      - "80:8080" # Mapeia a porta 80 do host para a 8080 do container (padrão .NET 8+)
+    networks:
+      - autolog_network
+
+networks:
+  autolog_network:
+    driver: bridge
 
 volumes:
   postgres_data:

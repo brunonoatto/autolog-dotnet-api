@@ -13,7 +13,6 @@ RUN dotnet restore "autolog-dotnet-api.csproj"
 
 # Copiar o restante do código e compilar
 COPY . .
-# WORKDIR "/src/Autolog.Api"
 RUN dotnet build "autolog-dotnet-api.csproj" -c Release -o /app/build
 
 # Estágio 2: Publicação
@@ -27,7 +26,6 @@ COPY --from=publish /app/publish .
 
 # Variáveis de ambiente padrão
 ENV ASPNETCORE_URLS=http://+:80
-ENV ASPNETCORE_ENVIRONMENT=Production
 
 EXPOSE 80
 ENTRYPOINT ["dotnet", "autolog-dotnet-api.dll"]

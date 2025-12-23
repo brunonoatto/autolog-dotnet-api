@@ -1,25 +1,26 @@
-version: "3.8"
-
 services:
   # Serviço da sua API
   autolog-api:
-    image: autolog-dotnet-api
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        - ASPNETCORE_ENVIRONMENT=Development
     container_name: autolog_api
     depends_on:
       - postgresdb
     ports:
-      - "8080:8080"
-    # O .env é carregado aqui
+      - "8080:80"
     env_file:
       - ./.env
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
     networks:
       - autolog_network
 
-  # Serviço do Banco de Dados PostgreSQL
   postgresdb:
     image: postgres:16
     container_name: autolog_postgres
-    # Porta mapeada para acesso externo (opcional)
     ports:
       - "5432:5432"
     environment:

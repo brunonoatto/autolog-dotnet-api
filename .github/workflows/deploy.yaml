@@ -47,12 +47,13 @@ jobs:
           # Adicionado ec2-user@ antes do host
           scp -i ~/.ssh/id_rsa docker-compose.prod.yml Dockerfile ec2-user@$CLEAN_HOST:/home/ec2-user/
 
-      - name: Deploy and Run Migrations via SSH
+      - name: Deploy and Run Migrations via SSH -- PEGAR AS ENVS DAS ENVS
         run: |
           CLEAN_HOST=$(echo "${{ secrets.EC2_HOST }}" | tr -d '[:space:]')
           ssh -i ~/.ssh/id_rsa ec2-user@$CLEAN_HOST << 'EOF'
             set -e
-            echo "DB_NAME=autologdb" > .env
+            echo "DB_HOST=autologdb" > .env
+            echo "DB_NAME=AUTOLOG_DB" >> .env
             echo "DB_USER=postgres" >> .env
             echo "DB_PASSWORD=${{ secrets.DB_PASSWORD }}" >> .env
             
