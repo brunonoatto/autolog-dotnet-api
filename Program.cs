@@ -91,23 +91,26 @@ var app = builder.Build();
 // TODO: Previne o erro de data no Postgre, pensar em uma fomra melhor de adaptar isso
 AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
 
+using (var scope = app.Services.CreateScope())
+{
+    var services = scope.ServiceProvider;
+    var dbContext = services.GetRequiredService<AppDbContext>();
+    try
+    {
+        Console.WriteLine("Applying database migrations...");
+        dbContext.Database.Migrate();
+        Console.WriteLine("Migrations applied successfully.");
+    }
+    catch (Exception ex)
+    {
+        var logger = services.GetRequiredService<ILogger<Program>>();
+        logger.LogError(ex, "[ERROR] Occured error on Migrations execution!!");
+        throw;
+    }
+}
+
 if (app.Environment.IsDevelopment())
 {
-    using (var scope = app.Services.CreateScope())
-    {
-        var dbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>(); // Certifique-se que o nome do seu DbContext está correto
-        try
-        {
-            Console.WriteLine("Applying database migrations...");
-            dbContext.Database.Migrate();
-            Console.WriteLine("Migrations applied successfully.");
-        }
-        catch (Exception ex)
-        {
-            Console.WriteLine($"An error occurred while migrating the database: {ex.Message}");
-        }
-    }
-
     app.UseSwagger();
     app.UseSwaggerUI();
 }
