@@ -12,6 +12,7 @@ services:
     # Note: Não expomos a porta 5432 para o mundo, apenas para a rede interna do Docker
 
   api:
+    image: autolog-api
     build:
       context: .
       dockerfile: Dockerfile
