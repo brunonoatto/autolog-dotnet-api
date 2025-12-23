@@ -1,4 +1,5 @@
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Text.RegularExpressions;
 using System.Web;
 
 namespace AutologApi.API.Domain.Models
@@ -34,14 +35,20 @@ namespace AutologApi.API.Domain.Models
         public string GetWhatsAppBudgetLink()
         {
             // TODO: colocar url da aplicação nas envs
-            var link = User!.HasLogin
-                ? $"https://d1nf456dx65l85.cloudfront.net/cliente/orcamento/{Os}"
-                : $"https://d1nf456dx65l85.cloudfront.net/orcamento/{Id}";
+            var APP_URL = "https://d1nf456dx65l85.cloudfront.net";
+            var budgetLink = User!.HasLogin
+                ? $"{APP_URL}/cliente/orcamento/{Os}"
+                : $"{APP_URL}/orcamento/{Id}";
 
-            var msg =
-                $"Olá {User?.Name}, aqui é da mecênica {Garage?.User?.Name}.\n\nSeu orçamento está pronto, basta clicar no link abaixo para revisar e aprovar.\nIniciaremos o serviço mediante aprovação do orçamento.\n\nLink: {link}";
+            var message =
+                $"Olá {User?.Name}, aqui é da mecênica {Garage?.User?.Name}.\n\n"
+                + "Seu orçamento está pronto, basta clicar no link abaixo para revisar e aprovar.\n"
+                + $"Iniciaremos o serviço mediante aprovação do orçamento.\n\nLink: {budgetLink}";
 
-            var whatsAppLink = $"https://wa.me/55{User?.Phone}?text={HttpUtility.UrlEncode(msg)}";
+            string phoneNumber = Regex.Replace(User!.Phone, @"[^\d]", "");
+
+            var whatsAppLink =
+                $"https://wa.me/55{phoneNumber}?text={HttpUtility.UrlEncode(message)}";
 
             return whatsAppLink;
         }
