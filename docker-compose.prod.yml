@@ -33,7 +33,7 @@ services:
       - HASH_SALT=${HASH_SALT}
       - HASH_JWT_KEY=${HASH_JWT_KEY}
     ports:
-      - "8080:80"
+      - "80:80"
     networks:
       - autolog_network
 
