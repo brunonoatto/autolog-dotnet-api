@@ -31,10 +31,6 @@ dotnet ef migrations add <name>
 dotnet ef database update
 ```
 
-## AWS
-
-- Acessar console da instância em PROD: `ssh -i autolog-key.pem ec2-user@18.233.74.165`
-
 ## 🚀 Fluxo de Deploy (CI/CD)
 
 A aplicação utiliza um pipeline de integração e entrega contínua (CI/CD) automatizado via **AWS**, projetado para ser eficiente e de baixo custo.
