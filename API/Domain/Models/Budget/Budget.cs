@@ -41,8 +41,8 @@ namespace AutologApi.API.Domain.Models
                 : $"{APP_URL}/orcamento/{Id}";
 
             var message =
-                $"Olá {User?.Name}, aqui é da mecênica {Garage?.User?.Name}.\n\n"
-                + "Seu orçamento está pronto, basta clicar no link abaixo para revisar e aprovar.\n"
+                $"Olá {User?.Name}, aqui é da mecânica {Garage?.User?.Name}.\n\n"
+                + "Seu orçamento está pronto, clique no link abaixo para revisar e aprovar.\n"
                 + $"Iniciaremos o serviço mediante aprovação do orçamento.\n\nLink: {budgetLink}";
 
             string phoneNumber = Regex.Replace(User!.Phone, @"[^\d]", "");
