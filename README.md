@@ -18,18 +18,17 @@ dotnet build
 docker-compose up --build -d
 ```
 
-## Migrations
+## 🗄️ Migrations
 
 Em produção elas são executadas pelo arquivo .github/workflows/ci.yaml
 Local são executadas quando a api sobe
 
-```bash
-# add
-dotnet ef migrations add <name>
+### Fluxo
 
-# update database
-dotnet ef database update
-```
+1.  Realizar as alterações nas Models
+2.  Criar a migration: `dotnet ef migrations add <name>`
+3.  Validar se a migrations foi criada de acordo com as alterações. Validar melhores práticas aqui.
+4.  Atualizar banco local: `dotnet ef database update`
 
 ## 🚀 Fluxo de Deploy (CI/CD)
 
