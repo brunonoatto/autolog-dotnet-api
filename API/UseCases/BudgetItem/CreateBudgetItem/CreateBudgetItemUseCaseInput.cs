@@ -2,10 +2,15 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace AutologApi.API.UseCases
 {
-    public record BudgetItemUseCaseInput(string Id, string Description, int Qtd, decimal Price);
+    public record CreateBudgetItemUseCaseInputDto(
+        string Id,
+        string Description,
+        int Qtd,
+        decimal Price
+    );
 
     public record CreateBudgetItemUseCaseInput(
-        [FromBody] BudgetItemUseCaseInput BodyData,
+        [FromBody] CreateBudgetItemUseCaseInputDto BodyData,
         [FromRoute] Guid BudgetId
     );
 }

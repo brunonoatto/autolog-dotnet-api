@@ -78,6 +78,7 @@ builder.Services.AddScoped<CreateBudgetUseCase>();
 builder.Services.AddScoped<GetBudgetUseCase>();
 builder.Services.AddScoped<ListBudgetsUseCase>();
 builder.Services.AddScoped<CreateBudgetItemUseCase>();
+builder.Services.AddScoped<UpdateBudgetItemUseCase>();
 builder.Services.AddScoped<DeleteBudgetItemUseCase>();
 builder.Services.AddScoped<UpdateStatusBudgetUseCase>();
 builder.Services.AddScoped<GetWhatsAppLinkBudgetUseCase>();

@@ -10,12 +10,21 @@ namespace AutologApi.API.Endpoints.Budget
             var BudgetGroup = app.MapGroup("budget-item");
 
             BudgetGroup.MapPost("/{budgetId}", CreateBudgetItem);
+            BudgetGroup.MapPut("/{budgetId}/{budgetItemId}", UpdateBudgetItem);
             BudgetGroup.MapDelete("/{budgetItemId}", DeleteBudgetItem);
         }
 
         private static Task<IResult> CreateBudgetItem(
             [AsParameters] CreateBudgetItemUseCaseInput input,
             [FromServices] CreateBudgetItemUseCase useCase
+        )
+        {
+            return useCase.Execute(input);
+        }
+
+        private static Task<IResult> UpdateBudgetItem(
+            [AsParameters] UpdateBudgetItemUseCaseInput input,
+            [FromServices] UpdateBudgetItemUseCase useCase
         )
         {
             return useCase.Execute(input);
