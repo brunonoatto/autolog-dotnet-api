@@ -7,7 +7,6 @@ namespace AutologApi.API.Domain.Models
     {
         public required Guid ClientId { get; set; }
         public required string License { get; set; }
-        public required string Brand { get; set; }
         public required string Model { get; set; }
         public required int Year { get; set; }
 

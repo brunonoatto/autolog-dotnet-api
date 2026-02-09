@@ -22,7 +22,6 @@ namespace AutologApi.API.UseCases
                     (int)b.Status,
                     b.Observation,
                     b.Car!.License,
-                    b.Car!.Brand,
                     b.Car!.Model,
                     b.Car!.Year,
                     b.User!.Name

@@ -21,7 +21,6 @@ namespace AutologApi.API.UseCases
             {
                 ClientId = input.User.GetClientId(),
                 License = carInput.License,
-                Brand = carInput.Brand,
                 Model = carInput.Model,
                 Year = carInput.Year,
             };

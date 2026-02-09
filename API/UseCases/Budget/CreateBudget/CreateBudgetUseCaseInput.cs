@@ -5,7 +5,7 @@ namespace AutologApi.API.UseCases
 {
     public record NewUserWIthoutLoginInput(string CpfCnpj, string Name, string Phone);
 
-    public record NewCarInput(string License, string Brand, string Model, int Year);
+    public record NewCarInput(string License, string Model, int Year);
 
     public record NewBudgetInput(
         Guid? ClientId,

@@ -33,13 +33,7 @@ namespace AutologApi.API.UseCases
                     b.Car!.License,
                     b.Status,
                     b.User!.Name,
-                    new CarUseCaseOutput(
-                        b.Car.License,
-                        b.Car.ClientId,
-                        b.Car.Brand,
-                        b.Car.Model,
-                        b.Car.Year
-                    )
+                    new CarUseCaseOutput(b.Car.License, b.Car.ClientId, b.Car.Model, b.Car.Year)
                 ))
                 .ToListPaginationAsync(input.Pagination);
 

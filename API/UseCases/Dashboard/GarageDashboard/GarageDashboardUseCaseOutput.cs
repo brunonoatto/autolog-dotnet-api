@@ -5,7 +5,6 @@ namespace AutologApi.API.UseCases
         int Status,
         string? Observation,
         string License,
-        string Brand,
         string Model,
         int Year,
         string ClientName

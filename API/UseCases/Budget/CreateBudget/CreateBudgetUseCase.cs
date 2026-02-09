@@ -60,7 +60,6 @@ namespace AutologApi.API.UseCases
                     License = bodyData.Car.License,
                     ClientId = (Guid)clientId,
                     Model = bodyData.Car.Model,
-                    Brand = bodyData.Car.Brand,
                     Year = bodyData.Car.Year,
                 };
 
