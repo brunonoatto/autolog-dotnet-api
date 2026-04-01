@@ -15,7 +15,7 @@ dotnet watch
 dotnet build
 
 # docker run
-docker-compose up --build -d
+docker compose up --build -d
 ```
 
 ## 🗄️ Migrations
@@ -71,4 +71,4 @@ ssh -i "sua-chave.pem" ec2-user@18.233.74.165
 
 ## Conectar no Banco de Dados PostgreeSQL
 
-- Comando: `sudo docker exec -it autolog_db psql -U postgres -d AUTOLOG_DB`
+- Comando: `sudo docker exec -it autolog_postgres psql -U postgres -d AUTOLOG_DB`
