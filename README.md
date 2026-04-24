@@ -5,16 +5,19 @@ Dotnet Minimal Api
 ## Comands
 
 ```bash
-# run
-dotnet run
+# Só o Postgres (Docker); a API roda no host
+docker compose up -d postgresdb
 
-# run watch
-dotnet watch
+# API no host (`.env` usa DB_HOST=localhost)
+dotnet watch run
+
+# run (sem watch)
+dotnet run
 
 # build
 dotnet build
 
-# docker run
+# API + Postgres tudo em container
 docker compose up --build -d
 ```
 
